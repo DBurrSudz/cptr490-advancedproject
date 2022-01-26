@@ -17,11 +17,9 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::guard("admin")->check()) {
-            return redirect()
-                ->route("admin.login.create")
-                ->with("Login First");
+        if (Auth::guard("admin")->check()) {
+            return $next($request);
         }
-        return $next($request);
+        abort(404);
     }
 }

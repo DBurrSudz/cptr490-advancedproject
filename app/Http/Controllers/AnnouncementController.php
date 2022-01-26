@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AnnouncementRequest;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AnnouncementController extends Controller
 {
@@ -14,7 +16,11 @@ class AnnouncementController extends Controller
      */
     public function index()
     {
-        //
+        $announcements = Announcement::orderBy("created_at", "desc")->get();
+        return response()->json($announcements);
+        return Inertia::render("Announcements/Index", [
+            "announcements" => $announcements,
+        ]);
     }
 
     /**
@@ -33,9 +39,13 @@ class AnnouncementController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AnnouncementRequest $request)
     {
-        //
+        $this->authorize("manageAnnouncements", Announcement::class);
+        Announcement::create($request->validated());
+        return response()->json([
+            "message" => "Announcement Created Successfully.",
+        ]);
     }
 
     /**
@@ -46,7 +56,10 @@ class AnnouncementController extends Controller
      */
     public function show(Announcement $announcement)
     {
-        //
+        return response()->json(["announcement" => $announcement->id]);
+        return Inertia::render("Announcements/Show", [
+            "announcement" => $announcement,
+        ]);
     }
 
     /**
@@ -57,7 +70,10 @@ class AnnouncementController extends Controller
      */
     public function edit(Announcement $announcement)
     {
-        //
+        $this->authorize("manageAnnouncements", Announcement::class);
+        return Inertia::render("Announcements/CreateEdit", [
+            "announcement" => $announcement,
+        ]);
     }
 
     /**
@@ -67,9 +83,20 @@ class AnnouncementController extends Controller
      * @param  \App\Models\Announcement  $announcement
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Announcement $announcement)
-    {
-        //
+    public function update(
+        AnnouncementRequest $request,
+        Announcement $announcement
+    ) {
+        $this->authorize("manageAnnouncements", Announcement::class);
+        $validatedRequest = $request->validated();
+        $announcement->update([
+            "title" => $validatedRequest["title"],
+            "description" => $validatedRequest["description"],
+            "category" => $validatedRequest["category"],
+        ]);
+        return response()->json([
+            "message" => "Announcement has been updated successfully.",
+        ]);
     }
 
     /**
@@ -80,6 +107,10 @@ class AnnouncementController extends Controller
      */
     public function destroy(Announcement $announcement)
     {
-        //
+        $this->authorize("manageAnnouncements", Announcement::class);
+        $announcement->delete();
+        return response()->json([
+            "message" => "Announcement Deleted Successfully.",
+        ]);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
+//------------------Admin Authentication Routes--------------------------------------------
 Route::prefix("admin")->group(function () {
     Route::get("/login", [AdminController::class, "showLogin"])
         ->name("admin.login.create")
@@ -32,6 +33,7 @@ Route::prefix("admin")->group(function () {
         ->name("admin.logout");
 });
 
+//------------------Student Authentication Routes------------------------------------------------
 Route::get("/register", [RegisteredUserController::class, "create"])
     ->middleware("guest")
     ->name("register");

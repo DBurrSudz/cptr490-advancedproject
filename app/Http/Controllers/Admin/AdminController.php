@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -44,9 +45,7 @@ class AdminController extends Controller
         }
 
         throw ValidationException::withMessages([
-            "email" => "These credentials do not match our records.",
-            "ncu_id" => "These credentials do not match our records.",
-            "password" => "These credentials do not match our records",
+            "email" => __("auth.failed"),
         ]);
     }
 

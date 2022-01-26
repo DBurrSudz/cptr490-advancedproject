@@ -22,6 +22,7 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
+        return response()->json(["Student register"]);
         return Inertia::render("Auth/Register");
     }
 
