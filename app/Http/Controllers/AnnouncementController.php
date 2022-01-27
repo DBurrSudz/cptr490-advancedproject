@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AnnouncementRequest;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class AnnouncementController extends Controller
@@ -16,7 +17,27 @@ class AnnouncementController extends Controller
      */
     public function index()
     {
-        $announcements = Announcement::orderBy("created_at", "desc")->get();
+        if (Auth::guard("admin")->check()) {
+            $announcements = Announcement::select([
+                "id",
+                "title",
+                "category",
+                "admin_id",
+                "created_at",
+            ])
+                ->latest()
+                ->with("admin:id,first_name,last_name")
+                ->get();
+        } else {
+            $announcements = Announcement::select([
+                "id",
+                "title",
+                "category",
+                "created_at",
+            ])
+                ->latest()
+                ->get();
+        }
         return response()->json($announcements);
         return Inertia::render("Announcements/Index", [
             "announcements" => $announcements,
@@ -56,9 +77,13 @@ class AnnouncementController extends Controller
      */
     public function show(Announcement $announcement)
     {
-        return response()->json(["announcement" => $announcement->id]);
+        return response()->json([
+            "announcement" => $announcement,
+            "admin" => $announcement->admin,
+        ]);
         return Inertia::render("Announcements/Show", [
             "announcement" => $announcement,
+            "admin" => $announcement->admin,
         ]);
     }
 

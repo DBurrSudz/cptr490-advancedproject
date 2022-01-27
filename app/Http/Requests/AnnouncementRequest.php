@@ -54,6 +54,6 @@ class AnnouncementRequest extends FormRequest
      */
     public function prepareForValidation()
     {
-        $this->merge(["admin_id" => Auth::guard("admin")->user()->id]);
+        $this->merge(["admin_id" => Auth::guard("admin")->id()]);
     }
 }
