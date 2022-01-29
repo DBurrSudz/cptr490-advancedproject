@@ -41,6 +41,6 @@ class CommentPolicy
         return (!$user->isAdmin() && $comment->user->is($user)) ||
             $user->isAdmin()
             ? Response::allow()
-            : Response::deny("You are not allowed to delete this job.");
+            : Response::deny("You are not allowed to delete this comment.");
     }
 }

@@ -41,7 +41,6 @@ class CommentRequest extends FormRequest
             "job_id.required" => "This comment should be posted to a job.",
             "job_id.exists" => "Comment must be posted to an existing Job",
             "user_id.required" => "Student is a required field.",
-            "user_id.exists" => "Student is a required field.",
             "user_id.exists" => "Must be an existing Student.",
         ];
     }

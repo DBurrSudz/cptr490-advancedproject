@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 
@@ -33,9 +34,11 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CommentRequest $request)
     {
-        //
+        $this->authorize("create", Comment::class);
+        Comment::create($request->validated());
+        return response()->json(["Comment has been created."]);
     }
 
     /**
@@ -67,9 +70,11 @@ class CommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment)
+    public function update(CommentRequest $request, Comment $comment)
     {
-        //
+        $this->authorize("editAndUpdate", $comment);
+        $comment->update($request->validated());
+        return response()->json(["Comment has been updated."]);
     }
 
     /**
@@ -80,6 +85,8 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        $this->authorize("destroy", $comment);
+        $comment->delete();
+        return response()->json(["Comment has been delete successfully."]);
     }
 }

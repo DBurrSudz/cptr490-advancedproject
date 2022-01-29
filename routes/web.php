@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\Student\StudentController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,10 +34,19 @@ use Inertia\Inertia;
 Route::group(
     ["prefix" => "admin", "middleware" => ["admin"], "as" => "admin."],
     function () {
-        //Dashboard
+        //Dashboard and Profile
         Route::get("/dashboard", [AdminController::class, "dashboard"])->name(
             "dashboard",
         );
+
+        Route::get("/profile", [AdminController::class, "profile"])->name(
+            "profile",
+        );
+
+        Route::put("/profile/{admin}", [
+            AdminController::class,
+            "update",
+        ])->name("profile.update");
 
         //Announcements
         Route::get("manage-announcements", [
@@ -71,10 +82,18 @@ Route::group(
 
 //------------------Student Routes------------------------------------------
 Route::group(["middleware" => ["auth"], "as" => "student."], function () {
-    //Dashboard
-    Route::get("/dashboard", function () {
-        return response()->json(["Dashboard" => "Student Dashboard"]);
-    })->name("dashboard");
+    //Dashboard and Profile
+    Route::get("/dashboard", [StudentController::class, "dashboard"])->name(
+        "dashboard",
+    );
+
+    Route::get("/profile", [StudentController::class, "profile"])->name(
+        "profile",
+    );
+
+    Route::put("/profile/{user}", [StudentController::class, "update"])->name(
+        "profile.update",
+    );
 
     //Announcements
     Route::get("/announcements", [
@@ -92,30 +111,41 @@ Route::group(["middleware" => ["auth"], "as" => "student."], function () {
 });
 
 //---------------Resource Routes---------------------------------------------
-Route::group(
-    ["middleware" => ["admin"], "as" => "announcements."],
-    function () {
-        Route::post("/announcements", [
-            AnnouncementController::class,
-            "store",
-        ])->name("store");
-        Route::put("/announcements/{announcement}", [
-            AnnouncementController::class,
-            "update",
-        ])->name("update");
-        Route::delete("/announcements/{announcement}", [
-            AnnouncementController::class,
-            "destroy",
-        ])->name("destroy");
-    },
-);
+Route::group(["middleware" => ["admin"], "as" => "announcement."], function () {
+    Route::post("/announcements", [
+        AnnouncementController::class,
+        "store",
+    ])->name("store");
+    Route::put("/announcements/{announcement}", [
+        AnnouncementController::class,
+        "update",
+    ])->name("update");
+    Route::delete("/announcements/{announcement}", [
+        AnnouncementController::class,
+        "destroy",
+    ])->name("destroy");
+});
 
-Route::group(["middleware" => ["auth"], "as" => "jobs."], function () {
+Route::group(["middleware" => ["auth"], "as" => "job."], function () {
     Route::post("/jobs", [JobController::class, "store"])->name("store");
     Route::put("/jobs/{job}", [JobController::class, "update"])->name("update");
 });
 
-Route::delete("/jobs/{job}", [JobController::class, "destroy"])->name(
+Route::group(["middleware" => ["auth"], "as" => "comment."], function () {
+    Route::post("/comments", [CommentController::class, "store"])->name(
+        "store",
+    );
+    Route::put("/comments/{comment}", [
+        CommentController::class,
+        "update",
+    ])->name("update");
+});
+
+Route::delete("/comments/{comment}", [
+    CommentController::class,
     "destroy",
+])->name("comment.destroy");
+Route::delete("/jobs/{job}", [JobController::class, "destroy"])->name(
+    "job.destroy",
 );
 require __DIR__ . "/auth.php";
