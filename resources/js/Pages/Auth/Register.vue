@@ -1,79 +1,169 @@
 <template>
-    <Head title="Register" />
+  <AuthLayout
+    @submit="submit"
+    maxWidth="580px"
+    pageTitle="Register Now!"
+    formTitle="Sign Up!"
+  >
+    <div class="grid grid-cols-2 gap-x-4">
+      <!--First Name-->
+      <Input
+        id="first_name"
+        label="First Name"
+        v-model="form.first_name"
+        placeholder="First Name"
+        :error="form.errors.first_name"
+        dark-background
+      />
 
-    <BreezeValidationErrors class="mb-4" />
+      <!--Last Name-->
+      <Input
+        id="last_name"
+        label="Last Name"
+        v-model="form.last_name"
+        :error="form.errors.last_name"
+        placeholder="Last Name"
+        dark-background
+      />
 
-    <form @submit.prevent="submit">
-        <div>
-            <BreezeLabel for="name" value="Name" />
-            <BreezeInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus autocomplete="name" />
-        </div>
+      <!--Title-->
+      <Input
+        v-if="route().current('admin.register.create')"
+        type="select"
+        id="title"
+        label="Title"
+        v-model="form.title"
+        :error="form.errors.title"
+        dark-background
+      >
+        <option selected disabled>Title</option>
+        <option v-for="title in titles" :key="title" :value="title">
+          {{ title }}
+        </option>
+      </Input>
 
-        <div class="mt-4">
-            <BreezeLabel for="email" value="Email" />
-            <BreezeInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autocomplete="username" />
-        </div>
+      <!--Northern Caribbean University ID-->
+      <Input
+        id="ncu_id"
+        label="NCU ID"
+        v-model="form.ncu_id"
+        placeholder="NCU ID"
+        :error="form.errors.ncu_id"
+        dark-background
+      />
 
-        <div class="mt-4">
-            <BreezeLabel for="password" value="Password" />
-            <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="new-password" />
-        </div>
+      <Input
+        v-if="route().current('register')"
+        id="dob"
+        type="date"
+        label="Date of Birth"
+        v-model="form.dob"
+        :error="form.errors.dob"
+        placeholder="Date of Birth"
+        dark-background
+      />
+    </div>
+    <!--Position-->
+    <Input
+      v-if="route().current('admin.register.create')"
+      id="position"
+      label="Position"
+      v-model="form.position"
+      :error="form.errors.position"
+      placeholder="Position"
+      dark-background
+    />
 
-        <div class="mt-4">
-            <BreezeLabel for="password_confirmation" value="Confirm Password" />
-            <BreezeInput id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" required autocomplete="new-password" />
-        </div>
+    <!--Email Address-->
+    <Input
+      type="email"
+      id="email"
+      label="Email Address"
+      v-model="form.email"
+      placeholder="Email"
+      :error="form.errors.email"
+      dark-background
+    />
+    <div class="grid grid-cols-2 gap-x-4">
+      <!--Password-->
+      <Input
+        type="password"
+        id="password"
+        label="Password"
+        v-model="form.password"
+        :error="form.errors.password"
+        placeholder="Password"
+        dark-background
+      />
 
-        <div class="flex items-center justify-end mt-4">
-            <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                Already registered?
-            </Link>
-
-            <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Register
-            </BreezeButton>
-        </div>
-    </form>
+      <!--Confirm Password-->
+      <Input
+        type="password"
+        id="password_confirmation"
+        label="Confirm Password"
+        v-model="form.password_confirmation"
+        :error="form.errors.password"
+        placeholder="Confirm Password"
+        dark-background
+      />
+    </div>
+    <button type="submit" class="btn-yellow w-full mt-2">
+      Sign Up <i class="fas fa-user-plus"></i>
+    </button>
+    <p class="mt-4 text-sm">
+      <span class="text-white">Already have an account?</span>&nbsp;
+      <Link class="text-green" :href="loginLink">Sign In!</Link>
+    </p>
+  </AuthLayout>
 </template>
 
 <script>
-import BreezeButton from '@/Components/Button.vue'
-import BreezeGuestLayout from '@/Layouts/Guest.vue'
-import BreezeInput from '@/Components/Input.vue'
-import BreezeLabel from '@/Components/Label.vue'
-import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
-import { Head, Link } from '@inertiajs/inertia-vue3';
+import { Link } from "@inertiajs/inertia-vue3"
+import AuthLayout from "@/Layouts/AuthLayout.vue"
+import Input from "@/Components/Common/Input.vue"
 
 export default {
-    layout: BreezeGuestLayout,
-
-    components: {
-        BreezeButton,
-        BreezeInput,
-        BreezeLabel,
-        BreezeValidationErrors,
-        Head,
-        Link,
-    },
-
-    data() {
-        return {
-            form: this.$inertia.form({
-                name: '',
-                email: '',
-                password: '',
-                password_confirmation: '',
-                terms: false,
-            })
-        }
-    },
-
-    methods: {
-        submit() {
-            this.form.post(this.route('register'), {
-                onFinish: () => this.form.reset('password', 'password_confirmation'),
-            })
-        }
+  props: {
+    titles: {
+      type: Array
     }
+  },
+  components: {
+    AuthLayout,
+    Input,
+    Link
+  },
+  computed: {
+    loginLink() {
+      if (route().current("register")) return route("login")
+      return route("admin.login.create")
+    }
+  },
+  data() {
+    return {
+      form: this.$inertia.form({
+        first_name: "",
+        last_name: "",
+        ncu_id: "",
+        title: "",
+        position: "",
+        dob: "",
+        email: "",
+        password: "",
+        password_confirmation: ""
+      })
+    }
+  },
+
+  methods: {
+    submit() {
+      const route = this.route().current("register")
+        ? "register"
+        : "admin.register.store"
+      this.form.post(this.route(route), {
+        onFinish: () => this.form.reset("password", "password_confirmation")
+      })
+    }
+  }
 }
 </script>

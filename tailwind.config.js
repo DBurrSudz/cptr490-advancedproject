@@ -11,9 +11,30 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                sans: ['Poppins', ...defaultTheme.fontFamily.sans],
             },
         },
+        colors: {
+            transparent: 'transparent',
+            current: 'currentColor',
+            red: {
+                DEFAULT: '#F3451E',
+            },
+            green: {
+                DEFAULT: '#4CAF50'
+            },
+            'dark-blue': {
+                DEFAULT: '#022D4D'
+            },
+            yellow: {
+                DEFAULT: '#FFD703'
+            },
+            white: "#FFFFFF"
+        }
+    },
+
+    variants: {
+        border: ['focus'],
     },
 
     plugins: [require('@tailwindcss/forms')],

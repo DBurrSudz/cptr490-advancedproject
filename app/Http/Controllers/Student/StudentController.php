@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class StudentController extends Controller
 {
@@ -37,7 +38,8 @@ class StudentController extends Controller
             ->with("job:id,title")
             ->take(3)
             ->get(["id", "body", "job_id"]);
-        return response()->json([
+
+        return Inertia::render("Dashboard", [
             "jobs" => $jobs,
             "unapprovedCount" => $unapprovedCount,
             "comments" => $comments,

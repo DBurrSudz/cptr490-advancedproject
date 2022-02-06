@@ -1,0 +1,17 @@
+.btn-dark-blue,
+.btn-yellow,
+.btn-green {
+  @apply px-4 py-2 text-white font-bold rounded-md;
+}
+
+.btn-dark-blue {
+  @apply bg-dark-blue;
+}
+
+.btn-yellow {
+  @apply bg-yellow text-dark-blue;
+}
+
+.btn-green {
+  @apply bg-green;
+}

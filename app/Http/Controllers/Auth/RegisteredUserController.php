@@ -22,7 +22,6 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        return response()->json(["Student register"]);
         return Inertia::render("Auth/Register");
     }
 
@@ -36,16 +35,39 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            "first_name" => "required|string|max:255",
-            "last_name" => "required|string|max:255",
-            "ncu_id" =>
-                "required|string|max:255|unique:users,ncu_id|unique:admins,ncu_id",
-            "dob" => "required|date",
-            "email" =>
-                "required|string|email|max:255|unique:users,email|unique:admins,email",
-            "password" => ["required", "confirmed", Rules\Password::defaults()],
-        ]);
+        $request->validate(
+            [
+                "first_name" => "required|string|max:255",
+                "last_name" => "required|string|max:255",
+                "ncu_id" =>
+                    "required|string|max:255|unique:users,ncu_id|unique:admins,ncu_id",
+                "dob" => "required|date",
+                "email" =>
+                    "required|string|email|max:255|unique:users,email|unique:admins,email",
+                "password" => [
+                    "required",
+                    "confirmed",
+                    Rules\Password::defaults(),
+                ],
+            ],
+            [
+                "first_name.required" => "Please enter your Firstname.",
+                "first_name.max" =>
+                    "First Name should not exceed 255 characters.",
+                "last_name.required" => "Please enter your Lastname.",
+                "last_name.max" =>
+                    "Last Name should not exceed 255 characters.",
+                "ncu_id.required" => "Please enter your NCU ID.",
+                "ncu_id.max" => "NCU ID should not exceed 255 characters.",
+                "ncu_id.unique" => "NCU ID already exists.",
+                "dob.required" => "Please enter your D.o.B.",
+                "email.required" => "Please enter an email address.",
+                "email.email" => "Please enter a valid email address.",
+                "password.required" => "Please enter your password.",
+                "password.confirmed" =>
+                    "Password and Confirm Password should be the same.",
+            ],
+        );
 
         $user = User::create([
             "first_name" => $request->first_name,

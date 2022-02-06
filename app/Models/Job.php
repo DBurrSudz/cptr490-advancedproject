@@ -20,16 +20,26 @@ class Job extends Model
         "admin_id",
     ];
 
+    /**
+     * Returns the student that created the job.
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Returns the admin that approved the job.
+     */
     public function admin()
     {
         return $this->belongsTo(Admin::class);
     }
 
+    /**
+     * Returns all the comments for the job.
+     *
+     */
     public function comments()
     {
         return $this->hasMany(Comment::class)->latest();

@@ -22,11 +22,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        return response()->json(["Student login"]);
-        return Inertia::render("Auth/Login", [
-            "canResetPassword" => Route::has("password.request"),
-            "status" => session("status"),
-        ]);
+        return Inertia::render("Auth/Login");
     }
     /**
      * Handle an incoming authentication request.
@@ -52,6 +48,7 @@ class AuthenticatedSessionController extends Controller
     public function destroy(Request $request)
     {
         Auth::guard("web")->logout();
+
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();

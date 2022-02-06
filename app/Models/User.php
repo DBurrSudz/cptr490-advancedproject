@@ -45,16 +45,35 @@ class User extends Authenticatable implements UserInterface
         "email_verified_at" => "datetime",
     ];
 
+    protected $appends = ["is_admin"];
+
+    /**
+     * Returns false that this model is an admin.
+     */
+    public function getIsAdminAttribute()
+    {
+        return $this->isAdmin();
+    }
+
+    /**
+     * Returns all the jobs that a student has created.
+     */
     public function jobs()
     {
         return $this->hasMany(Job::class);
     }
 
+    /**
+     * Returns all the comments that a student has created.
+     */
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
 
+    /**
+     * Returns false that a student is not an admin.
+     */
     public function isAdmin()
     {
         return false;
