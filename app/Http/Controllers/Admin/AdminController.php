@@ -21,7 +21,7 @@ class AdminController extends Controller
      */
     public function showLogin()
     {
-        return response()->json(["Admin Login Page"]);
+        return Inertia::render("Auth/Login");
     }
 
     /**
@@ -29,11 +29,21 @@ class AdminController extends Controller
      */
     public function login(Request $request)
     {
-        $request->validate([
-            "email" => "required_without:ncu_id",
-            "ncu_id" => "required_without:email",
-            "password" => "required|string",
-        ]);
+        $request->validate(
+            [
+                "email" => "required_without:ncu_id|email",
+                "ncu_id" => "required_without:email",
+                "password" => "required|string",
+            ],
+            [
+                "email.required_without" =>
+                    "Please enter either an email address or your NCU ID.",
+                "ncu_id.required_without" =>
+                    "Please enter either an email address or your NCU ID.",
+                "password.required" => "Please enter your password.",
+                "email.email" => "Please enter a valid email address.",
+            ],
+        );
 
         $admin = Admin::where("email", $request->input("email"))
             ->orWhere("ncu_id", $request->input("ncu_id"))
@@ -60,7 +70,7 @@ class AdminController extends Controller
      */
     public function showRegister()
     {
-        return response()->json(["Admin Registration Page"]);
+        return Inertia::render("Auth/Register", ["titles" => Admin::TITLES]);
     }
 
     /**
@@ -68,17 +78,43 @@ class AdminController extends Controller
      */
     public function register(Request $request)
     {
-        $request->validate([
-            "first_name" => "required|string|max:255",
-            "last_name" => "required|string|max:255",
-            "ncu_id" =>
-                "required|string|max:255|unique:admins,ncu_id|unique:users,ncu_id",
-            "title" => "required|string|max:255",
-            "position" => "required|string|max:255",
-            "email" =>
-                "required|string|email|max:255|unique:users,email|unique:admins,email",
-            "password" => ["required", "confirmed", Rules\Password::defaults()],
-        ]);
+        $request->validate(
+            [
+                "first_name" => "required|string|max:255",
+                "last_name" => "required|string|max:255",
+                "ncu_id" =>
+                    "required|string|max:255|unique:admins,ncu_id|unique:users,ncu_id",
+                "title" => "required|string|max:255",
+                "position" => "required|string|max:255",
+                "email" =>
+                    "required|string|email|max:255|unique:users,email|unique:admins,email",
+                "password" => [
+                    "required",
+                    "confirmed",
+                    Rules\Password::defaults(),
+                ],
+            ],
+            [
+                "first_name.required" => "Please enter your Firstname.",
+                "first_name.max" =>
+                    "First Name should not exceed 255 characters.",
+                "last_name.required" => "Please enter your Lastname.",
+                "last_name.max" =>
+                    "Last Name should not exceed 255 characters.",
+                "ncu_id.required" => "Please enter your NCU ID.",
+                "ncu_id.max" => "NCU ID should not exceed 255 characters.",
+                "ncu_id.unique" => "NCU ID already exists.",
+                "title.required" => "Please select a title.",
+                "position.required" =>
+                    "Please enter your official position held.",
+                "position.max" => "Position should not exceed 255 characters.",
+                "email.required" => "Please enter an email address.",
+                "email.email" => "Please enter a valid email address.",
+                "password.required" => "Please enter your password.",
+                "password.confirmed" =>
+                    "Password and Confirm Password should be the same.",
+            ],
+        );
 
         $admin = Admin::create([
             "first_name" => $request->first_name,
@@ -129,8 +165,7 @@ class AdminController extends Controller
         $jobsApprovedCount = $admin->jobs()->count();
         $jobsUnapproved = Job::where("approved", 0)->count();
 
-        return response()->json([
-            "admin" => Auth::guard("admin")->user(),
+        return Inertia::render("Dashboard", [
             "announcements" => $announcements,
             "jobs" => $jobs,
             "announcementsPostedCount" => $announcementsPostedCount,
