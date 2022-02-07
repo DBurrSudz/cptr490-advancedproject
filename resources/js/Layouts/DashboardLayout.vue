@@ -3,18 +3,16 @@
 
   <div class="flex">
     <!-- Sidebar -->
-    <sidebar />
+    <Sidebar />
 
-    <div class="py-8 px-12 grow">
+    <div class="py-8 px-12 grow bg-gray">
       <!-- Header -->
       <header class="mb-12">
-        <h1 class="h2" v-text="heading" />
+        <h1 class="text-[30px]" v-text="heading" />
       </header>
 
       <!-- Main Content -->
-      <main>
-        <slot />
-      </main>
+      <main><slot /></main>
     </div>
   </div>
 </template>

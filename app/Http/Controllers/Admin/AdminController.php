@@ -160,14 +160,14 @@ class AdminController extends Controller
             ->latest()
             ->with("user:id,first_name,last_name")
             ->take(5)
-            ->get("title", "user_id", "date_posted");
+            ->get(["id", "title", "user_id", "date_posted", "created_at"]);
         $announcementsPostedCount = $admin->announcements()->count();
         $jobsApprovedCount = $admin->jobs()->count();
         $jobsUnapproved = Job::where("approved", 0)->count();
 
         return Inertia::render("Dashboard", [
             "announcements" => $announcements,
-            "jobs" => $jobs,
+            "jobsAdmin" => $jobs,
             "announcementsPostedCount" => $announcementsPostedCount,
             "jobsApprovedCount" => $jobsApprovedCount,
             "jobsUnapproved" => $jobsUnapproved,

@@ -13,24 +13,31 @@ module.exports = {
             fontFamily: {
                 sans: ['Poppins', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                transparent: 'transparent',
+                current: 'currentColor',
+                red: {
+                    DEFAULT: '#F3451E',
+                },
+                green: {
+                    DEFAULT: '#4CAF50'
+                },
+                gray: {
+                    DEFAULT: '#ECECEC'
+                },
+                'dark-blue': {
+                    DEFAULT: '#022D4D'
+                },
+                'faint-blue': {
+                    DEFAULT: '#617F95'
+                },
+                yellow: {
+                    DEFAULT: '#FFD703'
+                },
+                white: "#FFFFFF"
+            }
         },
-        colors: {
-            transparent: 'transparent',
-            current: 'currentColor',
-            red: {
-                DEFAULT: '#F3451E',
-            },
-            green: {
-                DEFAULT: '#4CAF50'
-            },
-            'dark-blue': {
-                DEFAULT: '#022D4D'
-            },
-            yellow: {
-                DEFAULT: '#FFD703'
-            },
-            white: "#FFFFFF"
-        }
+
     },
 
     variants: {

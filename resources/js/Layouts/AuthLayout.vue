@@ -1,7 +1,7 @@
 <template>
   <Head :title="pageTitle" />
   <div
-    class="flex justify-center items-center min-h-screen w-screen bg-dark-blue py-8 px-4"
+    class="flex justify-center bg-gradient-to-l from-sky-800 to-dark-blue items-center min-h-screen w-screen py-8 px-4"
   >
     <div class="w-full" :style="{ maxWidth: maxWidth }">
       <div class="text-center text-white mb-4">

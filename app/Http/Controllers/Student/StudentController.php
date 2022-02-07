@@ -37,10 +37,10 @@ class StudentController extends Controller
             ->latest()
             ->with("job:id,title")
             ->take(3)
-            ->get(["id", "body", "job_id"]);
+            ->get(["id", "body", "job_id", "created_at", "updated_at"]);
 
         return Inertia::render("Dashboard", [
-            "jobs" => $jobs,
+            "jobsStudent" => $jobs,
             "unapprovedCount" => $unapprovedCount,
             "comments" => $comments,
             "jobsCreatedCount" => $jobsCreatedCount,

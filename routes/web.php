@@ -52,31 +52,31 @@ Route::group(
         Route::get("manage-announcements", [
             AnnouncementController::class,
             "index",
-        ])->name("manage-announcements.index");
+        ])->name("announcements.index");
 
         Route::get("manage-announcements/{announcement}", [
             AnnouncementController::class,
             "show",
-        ])->name("manage-announcements.show");
+        ])->name("announcements.show");
 
         Route::get("manage-announcements/{announcement}/edit", [
             AnnouncementController::class,
             "edit",
-        ])->name("manage-announcements.edit");
+        ])->name("announcements.edit");
 
         //Jobs
         Route::get("manage-jobs", [JobController::class, "index"])->name(
-            "manage-jobs.index",
+            "jobs.index",
         );
 
         Route::get("manage-jobs/{job}", [JobController::class, "show"])->name(
-            "manage-jobs.show",
+            "jobs.show",
         );
 
         Route::put("manage-jobs/status/{job}", [
             JobController::class,
             "approveAndDisapproveJob",
-        ])->name("manage-jobs.status");
+        ])->name("jobs.status");
     },
 );
 
@@ -106,8 +106,8 @@ Route::group(["middleware" => ["auth"], "as" => "student."], function () {
     ])->name("announcements.show");
 
     //Jobs
-    Route::get("jobs", [JobController::class, "index"])->name("index");
-    Route::get("jobs/{job}", [JobController::class, "show"])->name("show");
+    Route::get("jobs", [JobController::class, "index"])->name("jobs.index");
+    Route::get("jobs/{job}", [JobController::class, "show"])->name("jobs.show");
 });
 
 //---------------Resource Routes---------------------------------------------

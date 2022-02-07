@@ -34,7 +34,8 @@
         'border-gray-300 focus:border-dark-blue focus:ring-dark-blue focus:ring-opacity-50':
           !darkBackground,
         'focus:border-yellow focus:ring-yellow focus:ring-opacity-50':
-          darkBackground
+          darkBackground,
+        'border-red': error
       }"
       @input="$emit('update:modelValue', $event.target.value)"
     >
@@ -54,7 +55,8 @@
         'border-gray-300 focus:border-dark-blue focus:ring-dark-blue focus:ring-opacity-50':
           !darkBackground,
         'focus:border-yellow focus:ring-yellow focus:ring-opacity-50':
-          darkBackground
+          darkBackground,
+        'border-red border-2': error
       }"
       @input="$emit('update:modelValue', $event.target.value)"
     />

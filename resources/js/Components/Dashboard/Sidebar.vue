@@ -18,6 +18,37 @@
         userIsAdmin() ? route('admin.dashboard') : route('student.dashboard')
       "
     />
+    <SidebarLink
+      label="Announcements"
+      icon="fas fa-newspaper"
+      :active="route().current('*.announcements.index')"
+      :href="
+        userIsAdmin()
+          ? route('admin.announcements.index')
+          : route('student.announcements.index')
+      "
+    />
+    <SidebarLink
+      label="Jobs"
+      icon="fas fa-book-reader"
+      :active="route().current('*.jobs.index')"
+      :href="
+        userIsAdmin() ? route('admin.jobs.index') : route('student.jobs.index')
+      "
+    />
+    <SidebarLink
+      label="Profile"
+      icon="fas fa-id-card"
+      :active="route().current('*.profile')"
+      :href="userIsAdmin() ? route('admin.profile') : route('student.profile')"
+    />
+    <SidebarLink
+      label="Sign Out"
+      icon="fas fa-sign-out-alt"
+      as="button"
+      :href="userIsAdmin() ? route('admin.logout') : route('logout')"
+      method="post"
+    />
   </nav>
 </template>
 
