@@ -38,8 +38,7 @@ class AnnouncementController extends Controller
                 ->latest()
                 ->get();
         }
-        return response()->json($announcements);
-        return Inertia::render("Announcements/Index", [
+        return Inertia::render("Announcements/AnnouncementsIndex", [
             "announcements" => $announcements,
         ]);
     }
@@ -51,7 +50,10 @@ class AnnouncementController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize("manageAnnouncements", Announcement::class);
+        return Inertia::render("Announcements/CreateEdit", [
+            "mode" => "create",
+        ]);
     }
 
     /**
@@ -98,6 +100,7 @@ class AnnouncementController extends Controller
         $this->authorize("manageAnnouncements", Announcement::class);
         return Inertia::render("Announcements/CreateEdit", [
             "announcement" => $announcement,
+            "mode" => "edit",
         ]);
     }
 
@@ -136,6 +139,13 @@ class AnnouncementController extends Controller
         $announcement->delete();
         return response()->json([
             "message" => "Announcement Deleted Successfully.",
+        ]);
+    }
+
+    public function myAnnouncements(Request $request)
+    {
+        return response()->json([
+            "announcements" => $request->user("admin")->announcements,
         ]);
     }
 }

@@ -27,8 +27,8 @@ class JobRequest extends FormRequest
         return [
             "title" => "required|string|max:500",
             "description" => "required|string",
-            "paid" => "sometimes|boolean",
-            "rate" => "sometimes|string|max:255",
+            "paid" => "required|boolean",
+            "rate" => "nullable|string|max:255|required_if:paid,==,true",
             "user_id" => "required|integer|exists:users,id",
         ];
     }
@@ -46,6 +46,7 @@ class JobRequest extends FormRequest
             "rate.max" => "Rate should not exceed 255 characters.",
             "user_id.required" => "Student is a required field.",
             "user_id.exists" => "Must be an existing Student.",
+            "rate.required_if" => "Rate field is required.",
         ];
     }
 

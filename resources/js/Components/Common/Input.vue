@@ -13,19 +13,43 @@
       {{ label }}
     </label>
 
+    <!--Checkbox-->
+    <input
+      v-if="type === 'checkbox'"
+      class="rounded focus:ring-[3px] transition-all duration-250 ease"
+      :id="id"
+      :name="id"
+      :type="type"
+      :checked="modelValue"
+      :class="{
+        'border-gray-300 focus:border-dark-blue focus:ring-dark-blue focus:ring-opacity-50':
+          !darkBackground,
+        'focus:border-yellow focus:ring-yellow focus:ring-opacity-50':
+          darkBackground,
+        'border-red border-2': error
+      }"
+      @change="$emit('update:modelValue', $event.target.checked)"
+    />
     <!--TextArea-->
     <textarea
       :value="modelValue"
       :name="id"
       :id="id"
-      v-if="type === 'textarea'"
+      v-else-if="type === 'textarea'"
+      :class="{
+        'border-gray-300 focus:border-dark-blue focus:ring-dark-blue focus:ring-opacity-50':
+          !darkBackground,
+        'focus:border-yellow focus:ring-yellow focus:ring-opacity-50':
+          darkBackground,
+        'border-red': error
+      }"
       @input="$emit('update:modelValue', $event.target.value)"
     >
     </textarea>
-
+    <!--DropDown-->
     <select
       class="rounded focus:ring-[3px] transition-all duration-250 ease w-full"
-      v-if="type === 'select'"
+      v-else-if="type === 'select'"
       :id="id"
       :name="id"
       :type="type"
@@ -37,7 +61,7 @@
           darkBackground,
         'border-red': error
       }"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @change="$emit('update:modelValue', $event.target.value)"
     >
       <slot />
     </select>
@@ -51,6 +75,7 @@
       :type="type"
       :value="modelValue"
       :placeholder="placeholder"
+      :disabled="disabled"
       :class="{
         'border-gray-300 focus:border-dark-blue focus:ring-dark-blue focus:ring-opacity-50':
           !darkBackground,
@@ -69,7 +94,7 @@ export default {
   props: {
     label: String,
     modelValue: {
-      type: String
+      required: true
     },
     type: {
       type: String,
@@ -83,11 +108,14 @@ export default {
       type: Boolean
     },
     placeholder: {
-      type: String,
-      required: true
+      type: String
     },
     error: {
       type: String
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ["update:modelValue"]

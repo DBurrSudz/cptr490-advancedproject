@@ -6,6 +6,7 @@ use App\Http\Requests\JobRequest;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class JobController extends Controller
 {
@@ -25,6 +26,7 @@ class JobController extends Controller
                 "created_at",
                 "user_id",
                 "admin_id",
+                "date_posted",
             ])
                 ->latest()
                 ->with([
@@ -37,6 +39,7 @@ class JobController extends Controller
                 "id",
                 "title",
                 "date_posted",
+                "updated_at",
                 "paid",
                 "rate",
                 "user_id",
@@ -44,9 +47,10 @@ class JobController extends Controller
                 ->where("approved", 1)
                 ->latest()
                 ->with("user:id,first_name,last_name")
+                ->withCount("comments")
                 ->get();
         }
-        return response()->json(["jobs" => $jobs]);
+        return Inertia::render("Jobs/JobsIndex", ["jobs" => $jobs]);
     }
 
     /**
@@ -56,7 +60,7 @@ class JobController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render("Jobs/CreateEdit", ["mode" => "create"]);
     }
 
     /**
@@ -69,7 +73,7 @@ class JobController extends Controller
     {
         $this->authorize("create", Job::class);
         Job::create($request->validated());
-        return response()->json(["Job has been created successfully."]);
+        return back()->withSuccess("Job has been created successfully.");
     }
 
     /**
@@ -97,7 +101,10 @@ class JobController extends Controller
      */
     public function edit(Job $job)
     {
-        //
+        return Inertia::render("Jobs/CreateEdit", [
+            "mode" => "edit",
+            "job" => $job,
+        ]);
     }
 
     /**
@@ -111,7 +118,7 @@ class JobController extends Controller
     {
         $this->authorize("editAndUpdate", $job);
         $job->update($request->validated());
-        return response()->json(["Job successfully updated."]);
+        return back()->withSuccess("Job updated successfully!");
     }
 
     /**
@@ -138,7 +145,7 @@ class JobController extends Controller
                 "approved" => 0,
             ]);
         }
-        return response()->json(["Job status has been changed."]);
+        return back()->withSuccess("Job status successfully changed.");
     }
 
     /**
@@ -151,6 +158,13 @@ class JobController extends Controller
     {
         $this->authorize("destroy", $job);
         $job->delete();
-        return response()->json(["Job Deleted Successfully."]);
+        return back()->withSuccess("Job deleted successfully.");
+    }
+
+    public function myJobs(Request $request)
+    {
+        return Inertia::render("Jobs/StudentJobs", [
+            "jobs" => $request->user()->jobs,
+        ]);
     }
 }

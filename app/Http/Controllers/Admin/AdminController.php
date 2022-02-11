@@ -62,6 +62,8 @@ class AdminController extends Controller
 
         throw ValidationException::withMessages([
             "email" => __("auth.failed"),
+            "ncu_id" => __("auth.failed"),
+            "password" => __("auth.failed"),
         ]);
     }
 

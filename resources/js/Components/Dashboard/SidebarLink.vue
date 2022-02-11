@@ -1,8 +1,8 @@
 <template>
   <!-- Nav Link -->
   <Link
-    class="flex items-center text-white py-4 px-6 rounded-md"
-    :class="{ 'bg-green': active }"
+    class="flex items-center py-4 px-6 rounded-md"
+    :class="{ 'bg-yellow text-dark-blue': active, 'text-gray-400': !active }"
   >
     <i class="mr-3" :class="icon" />
     <span v-text="label" class="font-medium" />

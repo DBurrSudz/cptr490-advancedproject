@@ -16,7 +16,7 @@
         v-if="userIsAdmin()"
         class="bg-gradient-to-r from-green-500 to-green-700"
         :count="jobsApprovedCount"
-        label="Recently Approved"
+        label="Jobs Approved"
         icon="fas fa-tasks text-white"
       />
 
@@ -33,8 +33,8 @@
     </div>
 
     <!--Recently Created Jobs-->
-    <div v-if="userIsStudent()" class="mt-4 bg-white">
-      <div class="text-white bg-dark-blue w-full p-2">
+    <div v-if="userIsStudent()" class="mt-4 bg-white rounded-lg shadow-md p-2">
+      <div class="text-dark-blue w-full p-2">
         <h1 class="h4">Recently Created Jobs</h1>
       </div>
       <table class="min-w-full">
@@ -84,8 +84,8 @@
             :key="job.id"
             class="bg-white border-l-8 border-b hover:bg-gray-100"
             :class="{
-              'border-l-green-300': job.approved,
-              'border-l-red-400': !job.approved
+              'border-l-lime-500': job.approved,
+              'border-l-red': !job.approved
             }"
           >
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
@@ -98,18 +98,24 @@
               <i
                 class="mr-2"
                 :class="{
-                  'fas fa-check text-green': job.approved,
+                  'fas fa-check text-lime-500': job.approved,
                   'fas fa-times-circle text-red': !job.approved
                 }"
               ></i>
               <span v-text="job.approved ? 'Approved' : 'Unapproved'" />
             </td>
-            <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              {{ approverName(job) }}
-            </td>
-            <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              {{ dateApproved(job) }}
-            </td>
+            <td
+              v-text="
+                job.approved
+                  ? job.admin.first_name + ' ' + job.admin.last_name
+                  : 'N/A'
+              "
+              class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
+            ></td>
+            <td
+              v-text="job.approved ? job.date_posted : 'N/A'"
+              class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
+            ></td>
             <td class="text-blue-500 px-6 py-4 text-center">
               <Link
                 :href="
@@ -127,8 +133,8 @@
     </div>
 
     <!--Recently Posted Comments-->
-    <div v-if="userIsStudent()" class="mt-4 bg-white">
-      <div class="text-white bg-dark-blue w-full p-2">
+    <div v-if="userIsStudent()" class="mt-4 bg-white rounded-lg shadow-md p-2">
+      <div class="text-dark-blue w-full p-2">
         <h1 class="h4">Recently Posted Comments</h1>
       </div>
       <table class="min-w-full">
@@ -184,8 +190,8 @@
     </div>
 
     <!--Jobs Recently Approved-->
-    <div v-if="userIsAdmin()" class="mt-4 bg-white">
-      <div class="text-white bg-dark-blue w-full p-2">
+    <div v-if="userIsAdmin()" class="mt-4 bg-white rounded-lg shadow-md p-2">
+      <div class="text-dark-blue w-full p-2">
         <h1 class="h4">Jobs Recently Approved</h1>
       </div>
       <table class="min-w-full">
@@ -252,8 +258,8 @@
     </div>
 
     <!--Announcements Recently Created-->
-    <div v-if="userIsAdmin()" class="mt-4 bg-white">
-      <div class="text-white bg-dark-blue w-full p-2">
+    <div v-if="userIsAdmin()" class="mt-4 bg-white rounded-lg shadow-md p-2">
+      <div class="text-dark-blue w-full p-2">
         <h1 class="h4">Announcements Recently Created</h1>
       </div>
       <table class="min-w-full">
@@ -346,12 +352,11 @@ export default {
   },
   setup(props) {
     const { userIsStudent, userIsAdmin } = useUser()
-    const approverName = job =>
-      job.approved ? job.admin.first_name + " " + job.admin.last_name : "N/A"
 
-    const dateApproved = job => (job.approved ? job.date_posted : "N/A")
-
-    return { userIsStudent, userIsAdmin, approverName, dateApproved }
+    return {
+      userIsStudent,
+      userIsAdmin
+    }
   }
 }
 </script>

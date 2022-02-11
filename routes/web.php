@@ -54,10 +54,25 @@ Route::group(
             "index",
         ])->name("announcements.index");
 
+        Route::get("my-announcements", [
+            AnnouncementController::class,
+            "myAnnouncements",
+        ])->name("my-announcements.index");
+
         Route::get("manage-announcements/{announcement}", [
             AnnouncementController::class,
             "show",
         ])->name("announcements.show");
+
+        Route::get("manage-announcements/{announcement}/edit", [
+            AnnouncementController::class,
+            "edit",
+        ])->name("announcements.edit");
+
+        Route::get("manage-announcements/create", [
+            AnnouncementController::class,
+            "create",
+        ])->name("announcements.create");
 
         Route::get("manage-announcements/{announcement}/edit", [
             AnnouncementController::class,
@@ -107,31 +122,44 @@ Route::group(["middleware" => ["auth"], "as" => "student."], function () {
 
     //Jobs
     Route::get("jobs", [JobController::class, "index"])->name("jobs.index");
+    Route::get("my-jobs", [JobController::class, "myJobs"])->name(
+        "my-jobs.index",
+    );
+    Route::get("jobs/create", [JobController::class, "create"])->name(
+        "jobs.create",
+    );
     Route::get("jobs/{job}", [JobController::class, "show"])->name("jobs.show");
+    Route::get("jobs/{job}/edit", [JobController::class, "edit"])->name(
+        "jobs.edit",
+    );
 });
 
 //---------------Resource Routes---------------------------------------------
-Route::group(["middleware" => ["admin"], "as" => "announcement."], function () {
-    Route::post("/announcements", [
-        AnnouncementController::class,
-        "store",
-    ])->name("store");
-    Route::put("/announcements/{announcement}", [
-        AnnouncementController::class,
-        "update",
-    ])->name("update");
-    Route::delete("/announcements/{announcement}", [
-        AnnouncementController::class,
-        "destroy",
-    ])->name("destroy");
-});
+Route::group(
+    ["middleware" => ["admin"], "as" => "announcements."],
+    function () {
+        Route::post("/announcements", [
+            AnnouncementController::class,
+            "store",
+        ])->name("store");
+        Route::put("/announcements/{announcement}", [
+            AnnouncementController::class,
+            "update",
+        ])->name("update");
+        Route::delete("/announcements/{announcement}", [
+            AnnouncementController::class,
+            "destroy",
+        ])->name("destroy");
+    },
+);
 
-Route::group(["middleware" => ["auth"], "as" => "job."], function () {
+Route::group(["middleware" => ["auth"], "as" => "jobs."], function () {
     Route::post("/jobs", [JobController::class, "store"])->name("store");
+
     Route::put("/jobs/{job}", [JobController::class, "update"])->name("update");
 });
 
-Route::group(["middleware" => ["auth"], "as" => "comment."], function () {
+Route::group(["middleware" => ["auth"], "as" => "comments."], function () {
     Route::post("/comments", [CommentController::class, "store"])->name(
         "store",
     );
@@ -144,8 +172,8 @@ Route::group(["middleware" => ["auth"], "as" => "comment."], function () {
 Route::delete("/comments/{comment}", [
     CommentController::class,
     "destroy",
-])->name("comment.destroy");
+])->name("comments.destroy");
 Route::delete("/jobs/{job}", [JobController::class, "destroy"])->name(
-    "job.destroy",
+    "jobs.destroy",
 );
 require __DIR__ . "/auth.php";

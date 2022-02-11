@@ -31,9 +31,26 @@
     <SidebarLink
       label="Jobs"
       icon="fas fa-book-reader"
-      :active="route().current('*.jobs.index')"
+      :active="
+        route().current('*.jobs.index') ||
+        route().current('student.jobs.create') ||
+        route().current('student.jobs.edit')
+      "
       :href="
         userIsAdmin() ? route('admin.jobs.index') : route('student.jobs.index')
+      "
+    />
+    <SidebarLink
+      :label="userIsAdmin() ? 'My Announcements' : 'My Jobs'"
+      icon="fas fa-smile-beam"
+      :active="
+        route().current('admin.my-announcements.index') ||
+        route().current('student.my-jobs.index')
+      "
+      :href="
+        userIsAdmin()
+          ? route('admin.my-announcements.index')
+          : route('student.my-jobs.index')
       "
     />
     <SidebarLink
@@ -43,6 +60,7 @@
       :href="userIsAdmin() ? route('admin.profile') : route('student.profile')"
     />
     <SidebarLink
+      class="text-white"
       label="Sign Out"
       icon="fas fa-sign-out-alt"
       as="button"

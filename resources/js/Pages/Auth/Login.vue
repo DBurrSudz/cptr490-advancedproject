@@ -69,7 +69,10 @@ export default {
         ? "login"
         : "admin.login.store"
       this.form.post(this.route(route), {
-        onFinish: () => this.form.reset("password")
+        onFinish: () => {
+          this.form.reset("password")
+          this.form.reset("email")
+        }
       })
     }
   }
