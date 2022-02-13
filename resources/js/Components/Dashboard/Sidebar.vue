@@ -1,5 +1,5 @@
 <template>
-  <nav class="h-screen sticky w-60 bg-dark-blue py-8 px-6">
+  <nav class="h-screen sticky top-0 left-0 w-60 bg-dark-blue py-8 px-6">
     <!-- Logo -->
     <Link href="/" class="block text-center mb-8">
       <img

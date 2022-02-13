@@ -4,7 +4,12 @@
     :heading="userIsStudent() ? 'Available Jobs' : 'Manage Jobs'"
   >
     <SearchBar />
-    <NoResource v-if="jobs.length === 0" type="job" :create="userIsStudent()" />
+    <NoResource
+      v-if="jobs.length === 0"
+      type="jobs"
+      :create="userIsStudent()"
+      icon="fas fa-book-reader"
+    />
 
     <div v-else-if="userIsStudent()" class="grid grid-cols-3 gap-x-4 mt-8">
       <JobCard v-for="job in jobs" :key="job.id" :job="job" />
