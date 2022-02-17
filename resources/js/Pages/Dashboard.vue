@@ -92,7 +92,7 @@
               {{ job.title }}
             </td>
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              {{ job.created_at }}
+              {{ formatDate(job.created_at) }}
             </td>
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
               <i
@@ -113,7 +113,7 @@
               class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
             ></td>
             <td
-              v-text="job.approved ? job.date_posted : 'N/A'"
+              v-text="job.approved ? formatDate(job.date_posted) : 'N/A'"
               class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
             ></td>
             <td class="text-blue-500 px-6 py-4 text-center">
@@ -176,10 +176,10 @@
               {{ comment.body }}
             </td>
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              {{ comment.created_at }}
+              {{ formatDate(comment.created_at) }}
             </td>
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              {{ comment.updated_at }}
+              {{ formatDate(comment.updated_at) }}
             </td>
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
               {{ comment.job.title }}
@@ -242,10 +242,10 @@
               {{ job.user.first_name }} {{ job.user.last_name }}
             </td>
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              {{ job.date_posted }}
+              {{ formatDate(job.date_posted) }}
             </td>
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              {{ job.created_at }}
+              {{ formatDate(job.created_at) }}
             </td>
             <td class="text-blue-500 px-6 py-4 text-center">
               <Link :href="route('admin.jobs.show', job.id)">
@@ -310,10 +310,10 @@
               {{ announcement.category }}
             </td>
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              {{ announcement.created_at }}
+              {{ formatDate(announcement.created_at) }}
             </td>
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              {{ announcement.updated_at }}
+              {{ formatDate(announcement.updated_at) }}
             </td>
             <td class="text-blue-500 px-6 py-4 text-center">
               <Link :href="route('admin.announcements.show', announcement.id)">
@@ -332,6 +332,7 @@ import DashboardLayout from "@/Layouts/DashboardLayout"
 import DashboardCard from "@/Components/Home/DashboardCard.vue"
 import { Link } from "@inertiajs/inertia-vue3"
 import useUser from "@/composables/useUser"
+import useDateFormat from "@/composables/useDateFormat"
 
 export default {
   props: {
@@ -352,10 +353,12 @@ export default {
   },
   setup(props) {
     const { userIsStudent, userIsAdmin } = useUser()
+    const formatDate = useDateFormat()
 
     return {
       userIsStudent,
-      userIsAdmin
+      userIsAdmin,
+      formatDate
     }
   }
 }

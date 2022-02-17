@@ -38,7 +38,7 @@ class AnnouncementController extends Controller
                 ->latest()
                 ->get();
         }
-        return Inertia::render("Announcements/AnnouncementsIndex", [
+        return Inertia::render("Announcements/AnnouncementIndex", [
             "announcements" => $announcements,
         ]);
     }

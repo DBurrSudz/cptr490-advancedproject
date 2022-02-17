@@ -10,7 +10,8 @@
         <div>
           <h1 class="h4">{{ jobCreator }}</h1>
           <p class="text-sm text-gray-400 italic">
-            Posted: {{ job.date_posted }}
+            <i class="fas fa-clock"></i> Posted:
+            {{ formatDate(job.date_posted) }}
           </p>
         </div>
       </div>
@@ -28,10 +29,15 @@
     <!--Card Footer-->
     <div class="grid grid-cols-2 gap-x-2">
       <div>
-        <p class="text-sm text-green">{{ job.comments_count }} Comments</p>
+        <p class="text-sm text-green">
+          <i class="fas fa-comments"></i> {{ job.comments_count }} Comments
+        </p>
       </div>
       <div>
-        <p class="text-sm">Paid: <i :class="paidIconClass"></i></p>
+        <p class="text-sm">
+          <i class="fas fa-credit-card"></i> Paid:
+          <i :class="paidIconClass"></i>
+        </p>
       </div>
     </div>
   </div>
@@ -39,6 +45,7 @@
 
 <script>
 import { Link } from "@inertiajs/inertia-vue3"
+import useDateFormat from "@/composables/useDateFormat"
 export default {
   computed: {
     viewJob() {
@@ -60,6 +67,10 @@ export default {
       required: true,
       type: Object
     }
+  },
+  setup() {
+    const formatDate = useDateFormat()
+    return { formatDate }
   }
 }
 </script>

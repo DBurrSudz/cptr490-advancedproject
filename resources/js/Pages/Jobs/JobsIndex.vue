@@ -3,7 +3,14 @@
     :title="userIsStudent() ? 'Jobs' : 'Manage Jobs'"
     :heading="userIsStudent() ? 'Available Jobs' : 'Manage Jobs'"
   >
-    <SearchBar />
+    <div class="flex justify-between">
+      <SearchBar />
+      <Link v-if="userIsStudent()" :href="route('student.jobs.create')">
+        <button class="text-white bg-dark-blue py-2 px-4 shadow-lg rounded-lg">
+          <i class="text-[15px] fas fa-plus"></i>
+        </button>
+      </Link>
+    </div>
     <NoResource
       v-if="jobs.length === 0"
       type="jobs"
@@ -80,7 +87,7 @@
               {{ job.user.first_name }} {{ job.user.last_name }}
             </td>
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              {{ job.created_at }}
+              {{ formatDate(job.created_at) }}
             </td>
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
               <i
@@ -95,13 +102,13 @@
             <td
               v-text="
                 job.approved
-                  ? job.admin.first_name + '' + job.admin.last_name
+                  ? job.admin.first_name + ' ' + job.admin.last_name
                   : 'N/A'
               "
               class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
             ></td>
             <td
-              v-text="job.approved ? job.date_posted : 'N/A'"
+              v-text="job.approved ? formatDate(job.date_posted) : 'N/A'"
               class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
             ></td>
             <td class="px-6 py-4 flex justify-evenly items-center">
@@ -149,9 +156,9 @@ import { Link } from "@inertiajs/inertia-vue3"
 import useUser from "@/composables/useUser"
 import DashboardLayout from "@/Layouts/DashboardLayout"
 import NoResource from "@/Components/Common/NoResource.vue"
-import { toRefs } from "vue"
 import JobCard from "@/Components/Jobs/JobCard.vue"
 import SearchBar from "@/Components/Common/SearchBar.vue"
+import useDateFormat from "@/composables/useDateFormat"
 
 export default {
   components: {
@@ -168,9 +175,9 @@ export default {
     }
   },
   setup(props) {
-    const { jobs } = toRefs(props)
     const { userIsAdmin, userIsStudent } = useUser()
-    return { userIsAdmin, userIsStudent }
+    const formatDate = useDateFormat()
+    return { userIsAdmin, userIsStudent, formatDate }
   }
 }
 </script>

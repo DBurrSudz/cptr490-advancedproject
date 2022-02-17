@@ -31,11 +31,7 @@
     <SidebarLink
       label="Jobs"
       icon="fas fa-book-reader"
-      :active="
-        route().current('*.jobs.index') ||
-        route().current('student.jobs.create') ||
-        route().current('student.jobs.edit')
-      "
+      :active="route().current('*.jobs.*')"
       :href="
         userIsAdmin() ? route('admin.jobs.index') : route('student.jobs.index')
       "

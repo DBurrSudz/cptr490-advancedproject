@@ -85,7 +85,7 @@ class JobController extends Controller
     public function show(Job $job)
     {
         $this->authorize("viewAny", Job::class);
-        return response()->json([
+        return Inertia::render("Jobs/ViewJob", [
             "job" => $job,
             "user" => $job->user,
             "comments" => $job->comments,

@@ -13,5 +13,5 @@
 }
 
 .btn-green {
-  @apply bg-green;
+  @apply bg-lime-500;
 }
