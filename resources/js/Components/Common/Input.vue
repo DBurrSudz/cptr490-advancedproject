@@ -52,7 +52,6 @@
       v-else-if="type === 'select'"
       :id="id"
       :name="id"
-      :type="type"
       :value="modelValue"
       :class="{
         'border-gray-300 focus:border-dark-blue focus:ring-dark-blue focus:ring-opacity-50':
@@ -90,7 +89,11 @@
 </template>
 
 <script>
+import Editor from "@tinymce/tinymce-vue"
 export default {
+  components: {
+    Editor
+  },
   props: {
     label: String,
     modelValue: {
@@ -101,7 +104,6 @@ export default {
       default: "text"
     },
     id: {
-      required: true,
       type: String
     },
     darkBackground: {

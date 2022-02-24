@@ -344,7 +344,7 @@ export default {
     announcements: Array,
     announcementsPostedCount: Number,
     jobsApprovedCount: Number,
-    jobsUnapproved: Array
+    jobsUnapproved: Number
   },
   components: {
     DashboardLayout,

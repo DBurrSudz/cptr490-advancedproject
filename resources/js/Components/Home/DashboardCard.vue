@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-between items-center px-8 h-[120px] bg-white rounded-lg"
+    class="flex justify-between items-center px-8 h-[120px] shadow-md bg-white rounded-lg"
   >
     <div class="ml-2">
       <p class="text-[35px] text-white font-semibold">{{ count }}</p>

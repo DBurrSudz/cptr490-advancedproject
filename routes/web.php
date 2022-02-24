@@ -59,20 +59,15 @@ Route::group(
             "myAnnouncements",
         ])->name("my-announcements.index");
 
-        Route::get("manage-announcements/{announcement}", [
-            AnnouncementController::class,
-            "show",
-        ])->name("announcements.show");
-
-        Route::get("manage-announcements/{announcement}/edit", [
-            AnnouncementController::class,
-            "edit",
-        ])->name("announcements.edit");
-
         Route::get("manage-announcements/create", [
             AnnouncementController::class,
             "create",
         ])->name("announcements.create");
+
+        Route::get("manage-announcements/{announcement}", [
+            AnnouncementController::class,
+            "show",
+        ])->name("announcements.show");
 
         Route::get("manage-announcements/{announcement}/edit", [
             AnnouncementController::class,
@@ -150,6 +145,10 @@ Route::group(
             AnnouncementController::class,
             "destroy",
         ])->name("destroy");
+        Route::post("/announcements/upload", [
+            AnnouncementController::class,
+            "uploadImage",
+        ])->name("upload");
     },
 );
 
@@ -157,6 +156,10 @@ Route::group(["middleware" => ["auth"], "as" => "jobs."], function () {
     Route::post("/jobs", [JobController::class, "store"])->name("store");
 
     Route::put("/jobs/{job}", [JobController::class, "update"])->name("update");
+
+    Route::post("/jobs/upload", [JobController::class, "uploadImage"])->name(
+        "upload",
+    );
 });
 
 Route::group(["middleware" => ["auth"], "as" => "comments."], function () {

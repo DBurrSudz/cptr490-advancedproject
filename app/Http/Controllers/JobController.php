@@ -85,10 +85,14 @@ class JobController extends Controller
     public function show(Job $job)
     {
         $this->authorize("viewAny", Job::class);
+        $comments = $job
+            ->comments()
+            ->with("user")
+            ->get();
         return Inertia::render("Jobs/ViewJob", [
             "job" => $job,
             "user" => $job->user,
-            "comments" => $job->comments,
+            "comments" => $comments,
             "commentsCount" => $job->comments()->count(),
         ]);
     }
@@ -161,10 +165,23 @@ class JobController extends Controller
         return back()->withSuccess("Job deleted successfully.");
     }
 
+    /**
+     * Render all the jobs for a specific student.
+     */
     public function myJobs(Request $request)
     {
         return Inertia::render("Jobs/StudentJobs", [
             "jobs" => $request->user()->jobs,
         ]);
+    }
+
+    /**
+     * Allows students to upload images while creating a job.
+     */
+    public function uploadImage(Request $request)
+    {
+        $fileName = $request->file("file")->getClientOriginalName();
+        $path = $request->file("file")->storeAs("uploads", $fileName, "public");
+        return response()->json(["location" => "/storage/{$path}"]);
     }
 }

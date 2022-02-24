@@ -1,14 +1,14 @@
 <template>
   <!-- Nav Link -->
   <Link
-    class="flex items-center py-4 px-6 rounded-md"
+    class="flex mb-2 hover:text-white items-center py-4 px-6 rounded-md"
     :class="{
       'bg-lime-500 text-white': active,
       'text-gray-400': !active
     }"
   >
     <i class="mr-3" :class="icon" />
-    <span v-text="label" class="font-medium" />
+    <span v-text="label" class="text-[14px]" />
   </Link>
 </template>
 

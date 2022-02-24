@@ -1,7 +1,7 @@
 <template>
   <DashboardLayout
-    title="Jobs"
-    :heading="mode === 'create' ? 'Create job' : 'Edit job'"
+    title="Announcements"
+    :heading="mode === 'create' ? 'Create announcement' : 'Edit announcement'"
   >
     <FormLayout @submit="submit">
       <Input
@@ -12,21 +12,21 @@
         :error="form.errors.title"
       />
       <Input
-        id="paid"
-        label="Paid"
-        v-model="form.paid"
-        :error="form.errors.paid"
-        type="checkbox"
-      />
-      <Input
-        id="rate"
-        label="Pay Rate"
-        v-model="form.rate"
-        placeholder="Pay Rate"
-        :error="form.errors.rate"
-        :disabled="!form.paid"
-      />
-
+        type="select"
+        id="category"
+        label="Category"
+        v-model="form.category"
+        :error="form.errors.category"
+      >
+        <option selected disabled>Category</option>
+        <option
+          v-for="category in categories"
+          :key="category"
+          :value="category"
+        >
+          {{ category }}
+        </option>
+      </Input>
       <Editor
         :api-key="tinyKEY"
         v-model="form.description"
@@ -39,7 +39,7 @@
             'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | emoticons image | link unlink | fontselect fontsizeselect forecolor backcolor'
           ],
           placeholder: 'Description...',
-          images_upload_url: route('jobs.upload'),
+          images_upload_url: route('announcements.upload'),
           file_picker_types: 'image',
           automatic_uploads: true
         }"
@@ -65,56 +65,54 @@ import FormLayout from "@/Layouts/FormLayout.vue"
 import Input from "@/Components/Common/Input.vue"
 import Editor from "@tinymce/tinymce-vue"
 import { toRefs } from "vue"
-
 export default {
   components: {
-    Editor,
-    Link,
     DashboardLayout,
+    FormLayout,
     Input,
-    FormLayout
+    Editor
   },
   props: {
-    job: {
+    announcement: {
       type: Object
     },
     mode: {
       type: String,
       required: true
+    },
+    categories: {
+      type: Array,
+      required: true
     }
   },
   setup(props) {
-    const { mode, job } = toRefs(props)
-    const { userIsAdmin, userIsStudent } = useUser()
+    const { mode, announcement } = toRefs(props)
     const tinyKEY = process.env.MIX_VUE_APP_TINY_MCE_KEY
-
     let form
     if (mode.value === "create") {
       form = useForm({
         title: "",
         description: "",
-        paid: false,
-        rate: ""
+        category: ""
       })
     }
     if (mode.value === "edit") {
       form = useForm({
-        title: job.value?.title,
-        description: job.value?.description,
-        paid: job.value?.paid,
-        rate: job.value?.rate
+        title: announcement.value?.title,
+        description: announcement.value?.description,
+        category: announcement.value?.category
       })
     }
 
     function submit() {
       if (mode.value === "create") {
-        form.post(route("jobs.store"))
+        form.post(route("announcements.store"))
       }
       if (mode.value === "edit") {
-        form.put(route("jobs.update", job.value.id))
+        form.put(route("announcements.update", announcement.value.id))
       }
     }
-    return { form, userIsAdmin, userIsStudent, mode, submit, tinyKEY }
+    return { form, mode, submit, tinyKEY }
   }
 }
 </script>

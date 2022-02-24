@@ -10,6 +10,13 @@ class Announcement extends Model
     use HasFactory;
     protected $fillable = ["title", "category", "description", "admin_id"];
 
+    public const CATEGORIES = [
+        "Scholarship",
+        "Internship/Job",
+        "General",
+        "Other",
+    ];
+
     /**
      * Returns the admin for an announcement.
      */

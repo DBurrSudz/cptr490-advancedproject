@@ -38,7 +38,7 @@ class CommentController extends Controller
     {
         $this->authorize("create", Comment::class);
         Comment::create($request->validated());
-        return response()->json(["Comment has been created."]);
+        return back()->withSuccess("Comment added!");
     }
 
     /**
@@ -74,7 +74,7 @@ class CommentController extends Controller
     {
         $this->authorize("editAndUpdate", $comment);
         $comment->update($request->validated());
-        return response()->json(["Comment has been updated."]);
+        return back()->withSuccess("Comment updated!");
     }
 
     /**
@@ -87,6 +87,6 @@ class CommentController extends Controller
     {
         $this->authorize("destroy", $comment);
         $comment->delete();
-        return response()->json(["Comment has been delete successfully."]);
+        return back()->withSuccess("Comment removed!");
     }
 }

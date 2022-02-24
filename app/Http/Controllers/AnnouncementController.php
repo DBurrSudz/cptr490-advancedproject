@@ -53,6 +53,7 @@ class AnnouncementController extends Controller
         $this->authorize("manageAnnouncements", Announcement::class);
         return Inertia::render("Announcements/CreateEdit", [
             "mode" => "create",
+            "categories" => Announcement::CATEGORIES,
         ]);
     }
 
@@ -101,6 +102,7 @@ class AnnouncementController extends Controller
         return Inertia::render("Announcements/CreateEdit", [
             "announcement" => $announcement,
             "mode" => "edit",
+            "categories" => Announcement::CATEGORIES,
         ]);
     }
 
@@ -144,8 +146,18 @@ class AnnouncementController extends Controller
 
     public function myAnnouncements(Request $request)
     {
-        return response()->json([
+        return Inertia::render("Announcements/AdminAnnouncements", [
             "announcements" => $request->user("admin")->announcements,
         ]);
+    }
+
+    /**
+     * Allows students to upload images while creating a job.
+     */
+    public function uploadImage(Request $request)
+    {
+        $fileName = $request->file("file")->getClientOriginalName();
+        $path = $request->file("file")->storeAs("uploads", $fileName, "public");
+        return response()->json(["location" => "/storage/{$path}"]);
     }
 }

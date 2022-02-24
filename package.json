@@ -9,12 +9,12 @@
     "prod": "npm run production",
     "production": "mix --production"
   },
-
   "dependencies": {
     "@inertiajs/inertia": "^0.10.0",
     "@inertiajs/inertia-vue3": "^0.5.1",
     "@inertiajs/progress": "^0.2.6",
     "@tailwindcss/forms": "^0.4.0",
+    "@tinymce/tinymce-vue": "^4.0.6",
     "@vue/compiler-sfc": "^3.0.5",
     "autoprefixer": "^10.2.4",
     "axios": "^0.21",
