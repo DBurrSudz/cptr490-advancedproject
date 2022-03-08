@@ -162,7 +162,14 @@ class AdminController extends Controller
             ->latest()
             ->with("user:id,first_name,last_name")
             ->take(5)
-            ->get(["id", "title", "user_id", "date_posted", "created_at"]);
+            ->get([
+                "id",
+                "title",
+                "user_id",
+                "request",
+                "date_posted",
+                "created_at",
+            ]);
         $announcementsPostedCount = $admin->announcements()->count();
         $jobsApprovedCount = $admin->jobs()->count();
         $jobsUnapproved = Job::where("approved", 0)->count();
@@ -181,7 +188,11 @@ class AdminController extends Controller
      */
     public function profile(Request $request)
     {
-        return response()->json(["admin" => $request->user]);
+        $admin = $request->user("admin");
+        return Inertia::render("Profile/Profile", [
+            "titles" => Admin::TITLES,
+            "announcements" => $admin->announcements()->count(),
+        ]);
     }
 
     /**
@@ -190,6 +201,6 @@ class AdminController extends Controller
     public function update(AdminRequest $request, Admin $admin)
     {
         $admin->update($request->validated());
-        return response()->json(["Admin account successfully updated."]);
+        return back()->withSuccess("Profile updated.");
     }
 }

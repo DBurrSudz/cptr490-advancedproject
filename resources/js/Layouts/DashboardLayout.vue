@@ -15,17 +15,20 @@
       <main><slot /></main>
     </div>
   </div>
+  <Flash />
 </template>
 
 <script>
 import Sidebar from "@/Components/Dashboard/Sidebar"
 import { Link, Head } from "@inertiajs/inertia-vue3"
+import Flash from "@/Components/Common/Flash.vue"
 
 export default {
   components: {
     Head,
     Link,
-    Sidebar
+    Sidebar,
+    Flash
   },
 
   props: {

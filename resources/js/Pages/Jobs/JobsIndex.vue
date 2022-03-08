@@ -54,6 +54,12 @@
               scope="col"
               class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
             >
+              Request
+            </th>
+            <th
+              scope="col"
+              class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
+            >
               Approved By
             </th>
             <th
@@ -74,11 +80,7 @@
           <tr
             v-for="job in jobs"
             :key="job.id"
-            class="bg-white border-l-8 border-b hover:bg-gray-100"
-            :class="{
-              'border-l-lime-500': job.approved,
-              'border-l-red': !job.approved
-            }"
+            class="bg-white border-b hover:bg-gray-100"
           >
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
               {{ job.title }}
@@ -90,14 +92,18 @@
               {{ formatDate(job.created_at) }}
             </td>
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              <i
-                class="mr-2"
+              <p
+                class="p-2 text-center text-xs rounded-full w-[120px]"
                 :class="{
-                  'fas fa-check text-lime-500': job.approved,
-                  'fas fa-times-circle text-red': !job.approved
+                  'bg-green-300 text-green-700': job.approved,
+                  'bg-rose-400 text-rose-700': !job.approved
                 }"
-              ></i>
-              <span v-text="job.approved ? 'Approved' : 'Unapproved'" />
+              >
+                {{ job.approved ? "Approved" : "Pending.." }}
+              </p>
+            </td>
+            <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
+              {{ job.request ? "Yes" : "No" }}
             </td>
             <td
               v-text="

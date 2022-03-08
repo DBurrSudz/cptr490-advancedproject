@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\Student\StudentController;
@@ -19,15 +20,6 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Route::get("/", function () {
-//     return Inertia::render("Welcome", [
-//         "canLogin" => Route::has("login"),
-//         "canRegister" => Route::has("register"),
-//         "laravelVersion" => Application::VERSION,
-//         "phpVersion" => PHP_VERSION,
-//     ]);
-// });
 
 //----------------Admin Routes------------------------------------------
 
@@ -105,6 +97,11 @@ Route::group(["middleware" => ["auth"], "as" => "student."], function () {
         "profile.update",
     );
 
+    //Bookings
+    Route::get("/bookings", [BookingController::class, "index"])->name(
+        "bookings.index",
+    );
+
     //Announcements
     Route::get("/announcements", [
         AnnouncementController::class,
@@ -127,6 +124,10 @@ Route::group(["middleware" => ["auth"], "as" => "student."], function () {
     Route::get("jobs/{job}/edit", [JobController::class, "edit"])->name(
         "jobs.edit",
     );
+    Route::get("jobs/{job}/bookings", [
+        JobController::class,
+        "jobBookings",
+    ])->name("jobs.bookings");
 });
 
 //---------------Resource Routes---------------------------------------------
@@ -160,6 +161,22 @@ Route::group(["middleware" => ["auth"], "as" => "jobs."], function () {
     Route::post("/jobs/upload", [JobController::class, "uploadImage"])->name(
         "upload",
     );
+});
+
+Route::group(["middleware" => ["auth"], "as" => "bookings."], function () {
+    Route::post("/bookings", [BookingController::class, "store"])->name(
+        "store",
+    );
+
+    Route::put("/bookings/{booking}", [
+        BookingController::class,
+        "update",
+    ])->name("update");
+
+    Route::delete("/bookings/{booking}", [
+        BookingController::class,
+        "destroy",
+    ])->name("destroy");
 });
 
 Route::group(["middleware" => ["auth"], "as" => "comments."], function () {

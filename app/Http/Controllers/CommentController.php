@@ -38,7 +38,7 @@ class CommentController extends Controller
     {
         $this->authorize("create", Comment::class);
         Comment::create($request->validated());
-        return back()->withSuccess("Comment added!");
+        return back()->withSuccess("Comment added.");
     }
 
     /**
@@ -74,7 +74,7 @@ class CommentController extends Controller
     {
         $this->authorize("editAndUpdate", $comment);
         $comment->update($request->validated());
-        return back()->withSuccess("Comment updated!");
+        return back()->withSuccess("Comment updated.");
     }
 
     /**
@@ -87,6 +87,6 @@ class CommentController extends Controller
     {
         $this->authorize("destroy", $comment);
         $comment->delete();
-        return back()->withSuccess("Comment removed!");
+        return back()->withSuccess("Comment deleted.");
     }
 }

@@ -1,6 +1,12 @@
 <template>
   <!--Card-->
-  <div class="bg-white rounded-lg border-t-4 border-faint-blue shadow-md p-8">
+  <div
+    class="bg-white rounded-lg border-b-8 shadow-md p-8"
+    :class="{
+      'border-b-indigo-700': !job.request,
+      'border-b-rose-600': job.request
+    }"
+  >
     <!--Card Header-->
     <div class="flex justify-between items-center">
       <div class="flex">

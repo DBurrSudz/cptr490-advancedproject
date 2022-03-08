@@ -26,11 +26,9 @@ class StudentRequest extends FormRequest
         return [
             "first_name" => "required|string|max:255",
             "last_name" => "required|string|max:255",
-            "ncu_id" =>
-                "required|string|max:255|unique:users,ncu_id|unique:admins,ncu_id",
             "dob" => "required|date",
-            "address" => "sometimes|string|max:500",
-            "description" => "sometimes|string",
+            "address" => "nullable|string|max:500",
+            "description" => "nullable|string",
         ];
     }
 
@@ -41,9 +39,6 @@ class StudentRequest extends FormRequest
             "first_name.max" => "First name should not exceed 255 characters.",
             "last_name.required" => "Last name is required.",
             "last_name.max" => "Last name should not exceed 255 characters.",
-            "ncu_id.required" => "Please enter your NCU ID number.",
-            "ncu_id.max" => "NCU ID should not exceed 255 characters.",
-            "ncu_id.unique" => "The NCU ID entered is already taken.",
             "dob.required" => "D.O.B is required.",
             "address" => "Address should not exceed 255 characters",
         ];

@@ -67,9 +67,7 @@ class AnnouncementController extends Controller
     {
         $this->authorize("manageAnnouncements", Announcement::class);
         Announcement::create($request->validated());
-        return response()->json([
-            "message" => "Announcement Created Successfully.",
-        ]);
+        return back()->withSuccess("Announcement created.");
     }
 
     /**
@@ -80,11 +78,7 @@ class AnnouncementController extends Controller
      */
     public function show(Announcement $announcement)
     {
-        return response()->json([
-            "announcement" => $announcement,
-            "admin" => $announcement->admin,
-        ]);
-        return Inertia::render("Announcements/Show", [
+        return Inertia::render("Announcements/ViewAnnouncement", [
             "announcement" => $announcement,
             "admin" => $announcement->admin,
         ]);
@@ -124,9 +118,8 @@ class AnnouncementController extends Controller
             "description" => $validatedRequest["description"],
             "category" => $validatedRequest["category"],
         ]);
-        return response()->json([
-            "message" => "Announcement has been updated successfully.",
-        ]);
+
+        return back()->withSuccess("Announcement updated.");
     }
 
     /**
@@ -139,9 +132,7 @@ class AnnouncementController extends Controller
     {
         $this->authorize("manageAnnouncements", Announcement::class);
         $announcement->delete();
-        return response()->json([
-            "message" => "Announcement Deleted Successfully.",
-        ]);
+        return back()->withSuccess("Announcement removed!");
     }
 
     public function myAnnouncements(Request $request)

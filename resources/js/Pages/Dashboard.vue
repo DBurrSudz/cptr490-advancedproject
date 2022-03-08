@@ -2,33 +2,39 @@
   <DashboardLayout title="Dashboard" heading="Dashboard">
     <div class="grid grid-cols-3 gap-x-2">
       <DashboardCard
-        class="bg-gradient-to-r from-faint-blue to-dark-blue"
+        class="text-faint-blue"
         :count="userIsStudent() ? jobsCreatedCount : announcementsPostedCount"
         :label="userIsStudent() ? 'Jobs Created' : 'Announcements Posted'"
         :icon="
           userIsStudent()
-            ? 'fas fa-scroll text-white'
-            : 'fas fa-bullhorn text-white'
+            ? 'fas fa-scroll text-faint-blue'
+            : 'fas fa-bullhorn text-faint-blue'
         "
       />
 
       <DashboardCard
-        v-if="userIsAdmin()"
-        class="bg-gradient-to-r from-green-500 to-green-700"
-        :count="jobsApprovedCount"
-        label="Jobs Approved"
-        icon="fas fa-tasks text-white"
+        :class="{
+          'text-lime-500': userIsAdmin(),
+          'text-blue-500': userIsStudent()
+        }"
+        :count="userIsAdmin() ? jobsApprovedCount : bookingsCount"
+        :label="userIsStudent() ? 'Bookings' : 'Jobs Approved'"
+        :icon="
+          userIsStudent()
+            ? 'fas fa-calendar-day text-blue-500'
+            : 'fas fa-tasks text-lime-500'
+        "
       />
 
       <DashboardCard
-        class="bg-gradient-to-r from-red-500 to-red-400"
+        class="text-rose-600"
         :count="userIsStudent() ? unapprovedCount : jobsUnapproved"
         :label="
           userIsStudent()
             ? 'Jobs Pending Approval'
             : 'Total Jobs Pending Approval'
         "
-        icon="fas fa-exclamation-circle text-white"
+        icon="fas fa-exclamation-circle text-rose-600"
       />
     </div>
 
@@ -62,6 +68,12 @@
               scope="col"
               class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
             >
+              Request
+            </th>
+            <th
+              scope="col"
+              class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
+            >
               Approved By
             </th>
             <th
@@ -82,11 +94,7 @@
           <tr
             v-for="job in jobsStudent"
             :key="job.id"
-            class="bg-white border-l-8 border-b hover:bg-gray-100"
-            :class="{
-              'border-l-lime-500': job.approved,
-              'border-l-red': !job.approved
-            }"
+            class="bg-white border-b hover:bg-gray-100"
           >
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
               {{ job.title }}
@@ -95,14 +103,18 @@
               {{ formatDate(job.created_at) }}
             </td>
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              <i
-                class="mr-2"
+              <p
+                class="p-2 text-center text-xs rounded-full w-[120px]"
                 :class="{
-                  'fas fa-check text-lime-500': job.approved,
-                  'fas fa-times-circle text-red': !job.approved
+                  'bg-green-300 text-green-700': job.approved,
+                  'bg-rose-400 text-rose-700': !job.approved
                 }"
-              ></i>
-              <span v-text="job.approved ? 'Approved' : 'Unapproved'" />
+              >
+                {{ job.approved ? "Approved" : "Pending.." }}
+              </p>
+            </td>
+            <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
+              {{ job.request ? "Yes" : "No" }}
             </td>
             <td
               v-text="
@@ -213,6 +225,12 @@
               scope="col"
               class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
             >
+              Request
+            </th>
+            <th
+              scope="col"
+              class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
+            >
               Approved On
             </th>
             <th
@@ -240,6 +258,9 @@
             </td>
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
               {{ job.user.first_name }} {{ job.user.last_name }}
+            </td>
+            <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
+              {{ job.request ? "Yes" : "No" }}
             </td>
             <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
               {{ formatDate(job.date_posted) }}
@@ -344,7 +365,8 @@ export default {
     announcements: Array,
     announcementsPostedCount: Number,
     jobsApprovedCount: Number,
-    jobsUnapproved: Number
+    jobsUnapproved: Number,
+    bookingsCount: Number
   },
   components: {
     DashboardLayout,

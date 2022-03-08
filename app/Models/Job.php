@@ -44,4 +44,9 @@ class Job extends Model
     {
         return $this->hasMany(Comment::class)->latest();
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

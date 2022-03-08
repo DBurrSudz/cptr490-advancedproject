@@ -27,6 +27,7 @@ class JobController extends Controller
                 "user_id",
                 "admin_id",
                 "date_posted",
+                "request",
             ])
                 ->latest()
                 ->with([
@@ -43,6 +44,7 @@ class JobController extends Controller
                 "paid",
                 "rate",
                 "user_id",
+                "request",
             ])
                 ->where("approved", 1)
                 ->latest()
@@ -73,7 +75,10 @@ class JobController extends Controller
     {
         $this->authorize("create", Job::class);
         Job::create($request->validated());
-        return back()->withSuccess("Job has been created successfully.");
+        if ($request->input("request")) {
+            return back()->withSuccess("Request created.");
+        }
+        return back()->withSuccess("Job created.");
     }
 
     /**
@@ -82,18 +87,36 @@ class JobController extends Controller
      * @param  \App\Models\Job  $job
      * @return \Illuminate\Http\Response
      */
-    public function show(Job $job)
+    public function show(Request $request, Job $job)
     {
         $this->authorize("viewAny", Job::class);
-        $comments = $job
-            ->comments()
-            ->with("user")
-            ->get();
+        if (!$job->request) {
+            $comments = $job
+                ->comments()
+                ->with("user")
+                ->get();
+            return Inertia::render("Jobs/ViewJob", [
+                "job" => $job,
+                "user" => $job->user,
+                "comments" => $comments,
+                "commentsCount" => $job->comments()->count(),
+            ]);
+        }
+        if (Auth::guard("web")->check()) {
+            $user = $request->user("web");
+            $applied = !empty(
+                $user
+                    ->bookings()
+                    ->where("job_id", $job->id)
+                    ->first()
+            )
+                ? true
+                : false;
+        }
         return Inertia::render("Jobs/ViewJob", [
             "job" => $job,
             "user" => $job->user,
-            "comments" => $comments,
-            "commentsCount" => $job->comments()->count(),
+            "applied" => $applied ?? null,
         ]);
     }
 
@@ -122,7 +145,10 @@ class JobController extends Controller
     {
         $this->authorize("editAndUpdate", $job);
         $job->update($request->validated());
-        return back()->withSuccess("Job updated successfully!");
+        if ($request->input("request")) {
+            return back()->withSuccess("Request updated.");
+        }
+        return back()->withSuccess("Job updated.");
     }
 
     /**
@@ -149,7 +175,7 @@ class JobController extends Controller
                 "approved" => 0,
             ]);
         }
-        return back()->withSuccess("Job status successfully changed.");
+        return back()->withSuccess("Status updated.");
     }
 
     /**
@@ -162,7 +188,7 @@ class JobController extends Controller
     {
         $this->authorize("destroy", $job);
         $job->delete();
-        return back()->withSuccess("Job deleted successfully.");
+        return back()->withSuccess("Deleted successfully.");
     }
 
     /**
@@ -171,8 +197,33 @@ class JobController extends Controller
     public function myJobs(Request $request)
     {
         return Inertia::render("Jobs/StudentJobs", [
-            "jobs" => $request->user()->jobs,
+            "jobs" => $request
+                ->user()
+                ->jobs()
+                ->where("request", 0)
+                ->latest()
+                ->get(),
+            "requests" => $request
+                ->user()
+                ->jobs()
+                ->where("request", 1)
+                ->latest()
+                ->get(),
         ]);
+    }
+
+    /**
+     * Render all the applicants for a specific job request.
+     */
+    public function jobBookings(Job $job)
+    {
+        $bookings = $job
+            ->bookings()
+            ->with("user:id,first_name,last_name")
+            ->latest()
+            ->get();
+
+        return Inertia::render("Jobs/Bookings", ["bookings" => $bookings]);
     }
 
     /**

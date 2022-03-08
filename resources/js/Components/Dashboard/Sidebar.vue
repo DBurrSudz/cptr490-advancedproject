@@ -50,6 +50,13 @@
       "
     />
     <SidebarLink
+      v-if="!userIsAdmin()"
+      label="Bookings"
+      icon="fas fa-calendar-day"
+      :active="route().current('student.bookings.index')"
+      :href="route('student.bookings.index')"
+    />
+    <SidebarLink
       label="Profile"
       icon="fas fa-id-card"
       :active="route().current('*.profile')"

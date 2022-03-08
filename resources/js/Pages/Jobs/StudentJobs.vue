@@ -9,42 +9,85 @@
       </Link>
     </div>
     <NoResource
-      v-if="jobs.length === 0"
+      v-if="jobs.length === 0 && requests.length === 0"
       type="jobs"
       icon="fas fa-book-reader"
       :create="true"
     />
-    <div v-else class="bg-white rounded-[20px] p-8 shadow-lg mt-4">
-      <ul
-        v-for="job in jobs"
-        :key="job.id"
-        class="text-faint-blue text-sm font-sans bg-white rounded-r-xl py-3 px-6 w-full drop-shadow-lg grid grid-cols-5 gap-x-4 mb-4 hover:bg-gray-200"
-        :class="{
-          'border-l-4 border-lime-500': job.approved,
-          'border-l-4 border-red': !job.approved
-        }"
-      >
-        <li>{{ job.title }}</li>
-        <li>Created: {{ formatDate(job.created_at) }}</li>
-        <li class="pl-2">Last Edited: {{ formatDate(job.updated_at) }}</li>
-        <li class="pl-32">
-          Approved: {{ job.approved ? formatDate(job.date_posted) : "N/A" }}
-        </li>
-        <li>
-          <div style="float: right">
-            <Link :href="route('student.jobs.show', job.id)">
-              <i class="fas fa-external-link-alt text-blue-500 mr-2 pr-4"></i>
-            </Link>
-            <Link :href="route('student.jobs.edit', job.id)">
-              <i class="fas fa-edit text-green mr-2 pr-4"></i>
-            </Link>
-            <i
-              class="fas fa-trash text-red mr-2 cursor-pointer"
-              @click="$inertia.delete(route('jobs.destroy', job.id))"
-            ></i>
-          </div>
-        </li>
-      </ul>
+    <div v-else>
+      <div class="rounded-[20px] p-2 mt-4">
+        <div class="text-dark-blue w-full p-2">
+          <h1 class="h4">Job Adverts</h1>
+        </div>
+        <ul
+          v-for="job in jobs"
+          :key="job.id"
+          class="text-faint-blue text-sm font-sans bg-white rounded-r-xl py-3 px-6 w-full drop-shadow-lg grid grid-cols-5 gap-x-4 mb-4 hover:bg-gray-200"
+          :class="{
+            'border-l-4 border-lime-500': job.approved,
+            'border-l-4 border-red': !job.approved
+          }"
+        >
+          <li>{{ job.title }}</li>
+          <li>Created: {{ formatDate(job.created_at) }}</li>
+          <li class="pl-2">Last Edited: {{ formatDate(job.updated_at) }}</li>
+          <li class="pl-32">
+            Approved: {{ job.approved ? formatDate(job.date_posted) : "N/A" }}
+          </li>
+          <li>
+            <div style="float: right">
+              <Link :href="route('student.jobs.show', job.id)">
+                <i class="fas fa-external-link-alt text-blue-500 mr-2 pr-4"></i>
+              </Link>
+              <Link :href="route('student.jobs.edit', job.id)">
+                <i class="fas fa-edit text-green mr-2 pr-4"></i>
+              </Link>
+              <i
+                class="fas fa-trash text-red mr-2 cursor-pointer"
+                @click="$inertia.delete(route('jobs.destroy', job.id))"
+              ></i>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="rounded-[20px] p-2 mt-4">
+        <div class="text-dark-blue w-full p-2">
+          <h1 class="h4">Requests</h1>
+        </div>
+        <ul
+          v-for="job in requests"
+          :key="job.id"
+          class="text-faint-blue text-sm font-sans bg-white rounded-r-xl py-3 px-6 w-full drop-shadow-lg grid grid-cols-5 gap-x-4 mb-4 hover:bg-gray-200"
+          :class="{
+            'border-l-4 border-lime-500': job.approved,
+            'border-l-4 border-red': !job.approved
+          }"
+        >
+          <li>{{ job.title }}</li>
+          <li>Created: {{ formatDate(job.created_at) }}</li>
+          <li class="pl-2">Last Edited: {{ formatDate(job.updated_at) }}</li>
+          <li class="pl-32">
+            Approved: {{ job.approved ? formatDate(job.date_posted) : "N/A" }}
+          </li>
+          <li>
+            <div style="float: right">
+              <Link :href="route('student.jobs.show', job.id)">
+                <i class="fas fa-external-link-alt text-blue-500 mr-2 pr-4"></i>
+              </Link>
+              <Link :href="route('student.jobs.bookings', job.id)">
+                <i class="fas fa-clipboard text-rose-600 mr-2 pr-4"></i>
+              </Link>
+              <Link :href="route('student.jobs.edit', job.id)">
+                <i class="fas fa-edit text-green mr-2 pr-4"></i>
+              </Link>
+              <i
+                class="fas fa-trash text-red mr-2 cursor-pointer"
+                @click="$inertia.delete(route('jobs.destroy', job.id))"
+              ></i>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </DashboardLayout>
 </template>
@@ -65,6 +108,10 @@ export default {
   },
   props: {
     jobs: {
+      type: Array,
+      required: true
+    },
+    requests: {
       type: Array,
       required: true
     }

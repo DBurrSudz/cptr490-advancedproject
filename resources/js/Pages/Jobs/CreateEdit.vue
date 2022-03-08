@@ -19,6 +19,13 @@
         type="checkbox"
       />
       <Input
+        id="request"
+        label="Request"
+        v-model="form.request"
+        :error="form.errors.request"
+        type="checkbox"
+      />
+      <Input
         id="rate"
         label="Pay Rate"
         v-model="form.rate"
@@ -94,7 +101,8 @@ export default {
         title: "",
         description: "",
         paid: false,
-        rate: ""
+        rate: "",
+        request: false
       })
     }
     if (mode.value === "edit") {
@@ -102,7 +110,8 @@ export default {
         title: job.value?.title,
         description: job.value?.description,
         paid: job.value?.paid,
-        rate: job.value?.rate
+        rate: job.value?.rate,
+        request: job.value?.request
       })
     }
 

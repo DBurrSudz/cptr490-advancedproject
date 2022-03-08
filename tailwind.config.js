@@ -34,7 +34,20 @@ module.exports = {
                 yellow: {
                     DEFAULT: '#FFD703'
                 },
-                white: "#FFFFFF"
+                white: "#FFFFFF",
+                'cool-gray-600': {
+                    DEFAULT: '#4b5563 '
+                },
+                'amber-600': {
+                    DEFAULT: '#d97706 '
+                },
+                'indigo-700': {
+                    DEFAULT: '#4338ca '
+                },
+                'rose-600': {
+                    DEFAULT: '#e11d48 '
+                }
+
             }
         },
 

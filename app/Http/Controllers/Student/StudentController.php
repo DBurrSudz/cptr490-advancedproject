@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class StudentController extends Controller
@@ -23,6 +24,7 @@ class StudentController extends Controller
                 "date_posted",
                 "created_at",
                 "admin_id",
+                "request",
                 "approved",
             ]);
         $unapprovedCount = $user
@@ -39,11 +41,14 @@ class StudentController extends Controller
             ->take(3)
             ->get(["id", "body", "job_id", "created_at", "updated_at"]);
 
+        $bookingsCount = $user->bookings()->count();
+
         return Inertia::render("Dashboard", [
             "jobsStudent" => $jobs,
             "unapprovedCount" => $unapprovedCount,
             "comments" => $comments,
             "jobsCreatedCount" => $jobsCreatedCount,
+            "bookingsCount" => $bookingsCount,
         ]);
     }
 
@@ -52,7 +57,10 @@ class StudentController extends Controller
      */
     public function profile(Request $request)
     {
-        return response()->json(["user" => $request->user]);
+        $user = $request->user();
+        return Inertia::render("Profile/Profile", [
+            "jobs" => $user->jobs()->count(),
+        ]);
     }
 
     /**
@@ -61,9 +69,7 @@ class StudentController extends Controller
     public function update(StudentRequest $request, User $user)
     {
         $user->update($request->validated());
-        return response()->json([
-            "Student Profile has been updated successfully.",
-        ]);
+        return back()->withSuccess("Profile updated.");
     }
 
     /**

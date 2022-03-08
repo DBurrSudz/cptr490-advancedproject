@@ -5,10 +5,10 @@
     <div
       class="w-full text-center p-2 rounded-t-xl"
       :class="{
-        'bg-sky-800': announcement.category === 'Scholarship',
-        'bg-rose-700': announcement.category === 'General',
-        'bg-indigo-800': announcement.category === 'Other',
-        'bg-yellow-700': announcement.category === 'Internship/Job'
+        'bg-indigo-700': announcement.category === 'Scholarship',
+        'bg-cool-gray-600': announcement.category === 'General',
+        'bg-amber-600': announcement.category === 'Other',
+        'bg-rose-600': announcement.category === 'Internship/Job'
       }"
     >
       <h1 class="h3 text-white">{{ announcement.category }}</h1>

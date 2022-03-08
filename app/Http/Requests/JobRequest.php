@@ -30,6 +30,7 @@ class JobRequest extends FormRequest
             "paid" => "required|boolean",
             "rate" => "nullable|string|max:255|required_if:paid,==,true",
             "user_id" => "required|integer|exists:users,id",
+            "request" => "required|boolean",
         ];
     }
 

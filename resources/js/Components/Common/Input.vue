@@ -34,10 +34,11 @@
     <textarea
       :value="modelValue"
       :name="id"
+      :placeholder="placeholder"
       :id="id"
       v-else-if="type === 'textarea'"
       :class="{
-        'border-gray-300 focus:border-dark-blue focus:ring-dark-blue focus:ring-opacity-50':
+        'border-gray-300 w-full focus:border-dark-blue focus:ring-dark-blue focus:ring-opacity-50':
           !darkBackground,
         'focus:border-yellow focus:ring-yellow focus:ring-opacity-50':
           darkBackground,

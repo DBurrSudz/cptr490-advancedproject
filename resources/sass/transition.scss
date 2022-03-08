@@ -1,0 +1,71 @@
+%enter-from {
+  @apply overflow-hidden transform opacity-0;
+}
+
+%enter-to {
+  @apply transform opacity-100;
+}
+
+%active {
+  @apply transform transition-all duration-300 ease-out;
+}
+
+%translate-y-0 {
+  @apply translate-y-0;
+}
+
+.slide-up,
+.slide-down,
+.panel-slide-left,
+.modal-open {
+  &-enter-from,
+  &-leave-to {
+    @extend %enter-from;
+  }
+
+  &-enter-to,
+  &-leave-from {
+    @extend %enter-to;
+  }
+
+  &-enter-active,
+  &-leave-active {
+    @extend %active;
+  }
+}
+
+.slide-up {
+  &-enter-from,
+  &-leave-to {
+    @apply translate-y-12;
+  }
+
+  &-enter-to,
+  &-leave-from {
+    @extend %translate-y-0;
+  }
+}
+
+.slide-down {
+  &-enter-from,
+  &-leave-to {
+    @apply -translate-y-4;
+  }
+}
+
+.panel-slide-left {
+  &-enter-from,
+  &-leave-to {
+    @apply translate-x-96 opacity-100 #{!important};
+  }
+
+  &-enter-active,
+  &-leave-active {
+    @extend %active;
+  }
+
+  &-enter-to,
+  &-leave-from {
+    @apply translate-x-0;
+  }
+}

@@ -71,6 +71,11 @@ class User extends Authenticatable implements UserInterface
         return $this->hasMany(Comment::class);
     }
 
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
     /**
      * Returns false that a student is not an admin.
      */
