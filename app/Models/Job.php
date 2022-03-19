@@ -16,8 +16,11 @@ class Job extends Model
         "approved",
         "paid",
         "rate",
+        "request",
         "user_id",
         "admin_id",
+        "closed",
+        "limit",
     ];
 
     /**

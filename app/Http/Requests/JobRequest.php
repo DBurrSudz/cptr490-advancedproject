@@ -31,6 +31,7 @@ class JobRequest extends FormRequest
             "rate" => "nullable|string|max:255|required_if:paid,==,true",
             "user_id" => "required|integer|exists:users,id",
             "request" => "required|boolean",
+            "limit" => "nullable|integer",
         ];
     }
 
@@ -48,6 +49,7 @@ class JobRequest extends FormRequest
             "user_id.required" => "Student is a required field.",
             "user_id.exists" => "Must be an existing Student.",
             "rate.required_if" => "Rate field is required.",
+            "limit.integer" => "Limit must be an integer.",
         ];
     }
 

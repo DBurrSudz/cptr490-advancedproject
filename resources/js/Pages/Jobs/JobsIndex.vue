@@ -18,7 +18,10 @@
       icon="fas fa-book-reader"
     />
 
-    <div v-else-if="userIsStudent()" class="grid grid-cols-3 gap-x-4 mt-8">
+    <div
+      v-else-if="userIsStudent()"
+      class="grid grid-cols-3 gap-x-4 gap-y-6 mt-8"
+    >
       <JobCard v-for="job in jobs" :key="job.id" :job="job" />
     </div>
 

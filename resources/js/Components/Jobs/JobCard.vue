@@ -1,13 +1,24 @@
 <template>
   <!--Card-->
   <div
-    class="bg-white rounded-lg border-b-8 shadow-md p-8"
+    class="bg-white rounded-lg border-b-8 shadow-md p-4"
     :class="{
       'border-b-indigo-700': !job.request,
       'border-b-rose-600': job.request
     }"
   >
     <!--Card Header-->
+    <div class="w-full flex justify-center items-center py-2 mb-2">
+      <p
+        class="p-2 text-center text-xs rounded-full w-[120px] text-white shadow-lg font-semibold"
+        :class="{
+          'bg-indigo-700': !job.request,
+          'bg-rose-600': job.request
+        }"
+      >
+        {{ job.request ? "Request" : "Advertisement" }}
+      </p>
+    </div>
     <div class="flex justify-between items-center">
       <div class="flex">
         <div class="mr-2">
@@ -34,7 +45,7 @@
     </div>
     <!--Card Footer-->
     <div class="grid grid-cols-2 gap-x-2">
-      <div>
+      <div v-if="!job.request">
         <p class="text-sm text-green">
           <i class="fas fa-comments"></i> {{ job.comments_count }} Comments
         </p>

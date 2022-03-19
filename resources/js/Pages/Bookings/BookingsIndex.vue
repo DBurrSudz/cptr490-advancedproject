@@ -56,10 +56,12 @@
                 class="p-2 text-center text-xs rounded-full w-[120px]"
                 :class="{
                   'bg-green-300 text-green-700': booking.accepted,
-                  'bg-rose-400 text-rose-700': !booking.accepted
+                  'bg-rose-400 text-rose-700': !booking.eligible,
+                  'bg-blue-300 text-blue-700':
+                    !booking.accepted && booking.eligible
                 }"
               >
-                {{ booking.accepted ? "Accepted" : "Pending.." }}
+                {{ bookingTag(booking) }}
               </p>
             </td>
             <td class="text-blue-500 px-6 py-4 text-center">
@@ -82,6 +84,7 @@ import SearchBar from "@/Components/Common/SearchBar.vue"
 import NoResource from "@/Components/Common/NoResource.vue"
 import { Link } from "@inertiajs/inertia-vue3"
 import useDateFormat from "@/composables/useDateFormat"
+import useBookingTag from "@/composables/useBookingTag"
 export default {
   props: {
     bookings: {
@@ -97,7 +100,8 @@ export default {
   },
   data() {
     return {
-      formatDate: useDateFormat()
+      formatDate: useDateFormat(),
+      bookingTag: useBookingTag()
     }
   }
 }

@@ -21,6 +21,10 @@ use Inertia\Inertia;
 |
 */
 
+Route::get("/", function () {
+    return Inertia::render("Welcome");
+});
+
 //----------------Admin Routes------------------------------------------
 
 Route::group(
@@ -157,6 +161,11 @@ Route::group(["middleware" => ["auth"], "as" => "jobs."], function () {
     Route::post("/jobs", [JobController::class, "store"])->name("store");
 
     Route::put("/jobs/{job}", [JobController::class, "update"])->name("update");
+
+    Route::put("/jobs/{job}/toggleClosed", [
+        JobController::class,
+        "toggleClosed",
+    ])->name("toggle_closed");
 
     Route::post("/jobs/upload", [JobController::class, "uploadImage"])->name(
         "upload",

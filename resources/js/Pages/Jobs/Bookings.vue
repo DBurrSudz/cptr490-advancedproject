@@ -1,7 +1,12 @@
 <template>
   <DashboardLayout heading="Applicants" title="Applications">
     <h1 class="h3 font-semibold">Applicants ({{ bookings.length }})</h1>
-    <div class="w-full mt-2 bg-white rounded-lg shadow-lg h-[500px] p-4">
+    <NoResource
+      v-if="bookings.length === 0"
+      icon="fas fa-file-contract"
+      type="applicants"
+    />
+    <div v-else class="w-full mt-2 bg-white rounded-lg shadow-lg h-[500px] p-4">
       <table class="min-w-full">
         <thead class="bg-white border-b-faint-blue">
           <tr>
@@ -48,10 +53,12 @@
                 class="p-2 text-center text-xs rounded-full w-[120px]"
                 :class="{
                   'bg-green-300 text-green-700': booking.accepted,
-                  'bg-rose-400 text-rose-700': !booking.accepted
+                  'bg-rose-400 text-rose-700': !booking.eligible,
+                  'bg-blue-300 text-blue-700':
+                    !booking.accepted && booking.eligible
                 }"
               >
-                {{ booking.accepted ? "Accepted" : "Pending.." }}
+                {{ bookingTag(booking) }}
               </p>
             </td>
             <td class="text-blue-500 px-6 py-4 text-center">
@@ -72,9 +79,12 @@
 <script>
 import DashboardLayout from "@/Layouts/DashboardLayout.vue"
 import useDateFormat from "@/composables/useDateFormat"
+import NoResource from "@/Components/Common/NoResource.vue"
+import useBookingTag from "@/composables/useBookingTag"
 export default {
   components: {
-    DashboardLayout
+    DashboardLayout,
+    NoResource
   },
   props: {
     bookings: {
@@ -84,8 +94,9 @@ export default {
   },
   setup() {
     const formatDate = useDateFormat()
+    const bookingTag = useBookingTag()
 
-    return { formatDate }
+    return { formatDate, bookingTag }
   }
 }
 </script>

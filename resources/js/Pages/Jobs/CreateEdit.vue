@@ -19,6 +19,15 @@
         type="checkbox"
       />
       <Input
+        v-if="form.paid"
+        id="rate"
+        label="Pay Rate"
+        v-model="form.rate"
+        placeholder="Pay Rate"
+        :error="form.errors.rate"
+        :disabled="!form.paid"
+      />
+      <Input
         id="request"
         label="Request"
         v-model="form.request"
@@ -26,12 +35,12 @@
         type="checkbox"
       />
       <Input
-        id="rate"
-        label="Pay Rate"
-        v-model="form.rate"
-        placeholder="Pay Rate"
-        :error="form.errors.rate"
-        :disabled="!form.paid"
+        v-if="form.request"
+        id="limit"
+        label="Limit"
+        v-model="form.limit"
+        :error="form.errors.limit"
+        type="number"
       />
 
       <Editor
@@ -102,7 +111,8 @@ export default {
         description: "",
         paid: false,
         rate: "",
-        request: false
+        request: false,
+        limit: 0
       })
     }
     if (mode.value === "edit") {
@@ -111,7 +121,8 @@ export default {
         description: job.value?.description,
         paid: job.value?.paid,
         rate: job.value?.rate,
-        request: job.value?.request
+        request: job.value?.request,
+        limit: job.value?.limit
       })
     }
 

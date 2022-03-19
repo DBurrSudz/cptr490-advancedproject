@@ -1,5 +1,8 @@
 <template>
-  <DashboardLayout title="Dashboard" heading="Dashboard">
+  <DashboardLayout
+    title="Dashboard"
+    :heading="userIsStudent() ? 'Dashboard' : 'Dashboard - Admin'"
+  >
     <div class="grid grid-cols-3 gap-x-2">
       <DashboardCard
         class="text-faint-blue"

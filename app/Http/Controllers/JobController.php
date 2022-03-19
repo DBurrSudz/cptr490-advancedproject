@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\JobRequest;
+use App\Models\Booking;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -234,5 +235,22 @@ class JobController extends Controller
         $fileName = $request->file("file")->getClientOriginalName();
         $path = $request->file("file")->storeAs("uploads", $fileName, "public");
         return response()->json(["location" => "/storage/{$path}"]);
+    }
+
+    /**
+     * Closes a job to prevent others from apply. When a job is closed, all users not accepted for the job will know.
+     */
+    public function toggleClosed(Job $job)
+    {
+        if (!$job->closed) {
+            $job->update([
+                "closed" => 1,
+            ]);
+        } else {
+            $job->update([
+                "closed" => 0,
+            ]);
+        }
+        return back()->withSuccess("Status updated.");
     }
 }

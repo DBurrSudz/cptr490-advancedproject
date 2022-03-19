@@ -19,21 +19,38 @@
               >Last updated: {{ formatDate(job.updated_at) }}</span
             >
           </div>
-          <div
-            v-if="
-              job.request &&
-              userIsStudent() &&
-              user.id !== $page.props.auth.user.id
-            "
-            class="flex justify-center items-center"
-          >
+          <div class="flex justify-center items-center">
+            <h1
+              class="h4 font-medium"
+              v-if="job.closed && user.id !== $page.props.auth.user.id"
+            >
+              Student has stopped accepting applicants.
+            </h1>
             <button
+              v-if="
+                job.request &&
+                userIsStudent() &&
+                user.id !== $page.props.auth.user.id &&
+                !job.closed
+              "
               @click="apply"
               :disabled="applied"
               class="bg-dark-blue text-white rounded-lg shadow-lg capitalize w-[150px] h-[50px]"
               :class="{ 'bg-gray-300': applied }"
             >
               {{ applied ? "Submitted" : "Apply!" }}
+            </button>
+            <button
+              v-if="
+                job.request &&
+                userIsStudent() &&
+                user.id === $page.props.auth.user.id
+              "
+              @click="$inertia.put(route('jobs.toggle_closed', job.id))"
+              class="bg-dark-blue text-white rounded-lg shadow-lg capitalize w-[150px] h-[50px]"
+              :class="{ 'bg-gray-300': applied }"
+            >
+              {{ job.closed ? "Open" : "Close" }}
             </button>
           </div>
         </div>

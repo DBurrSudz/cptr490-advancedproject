@@ -29,7 +29,7 @@
       "
     />
     <SidebarLink
-      label="Jobs"
+      label="Jobs/Requests"
       icon="fas fa-book-reader"
       :active="route().current('*.jobs.*')"
       :href="
