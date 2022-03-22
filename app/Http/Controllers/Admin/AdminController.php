@@ -31,23 +31,17 @@ class AdminController extends Controller
     {
         $request->validate(
             [
-                "email" => "required_without:ncu_id|email",
-                "ncu_id" => "required_without:email",
+                "email" => "required|email",
                 "password" => "required|string",
             ],
             [
-                "email.required_without" =>
-                    "Please enter either an email address or your NCU ID.",
-                "ncu_id.required_without" =>
-                    "Please enter either an email address or your NCU ID.",
+                "email.required" => "Please enter an email address.",
                 "password.required" => "Please enter your password.",
                 "email.email" => "Please enter a valid email address.",
             ],
         );
 
-        $admin = Admin::where("email", $request->input("email"))
-            ->orWhere("ncu_id", $request->input("ncu_id"))
-            ->first();
+        $admin = Admin::where("email", $request->input("email"))->first();
 
         if (
             $admin &&
@@ -62,7 +56,6 @@ class AdminController extends Controller
 
         throw ValidationException::withMessages([
             "email" => __("auth.failed"),
-            "ncu_id" => __("auth.failed"),
             "password" => __("auth.failed"),
         ]);
     }

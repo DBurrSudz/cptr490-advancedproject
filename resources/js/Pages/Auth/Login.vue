@@ -10,15 +10,6 @@
       dark-background
     />
     <Input
-      v-if="route().current('admin.login.create')"
-      id="ncu_id"
-      label="NCU ID"
-      v-model="form.ncu_id"
-      placeholder="NCU ID"
-      :error="form.errors.ncu_id"
-      dark-background
-    />
-    <Input
       type="password"
       id="password"
       label="Password"
