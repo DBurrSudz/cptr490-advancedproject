@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BookingRequest;
+use App\Mail\StudentAccepted;
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class BookingController extends Controller
@@ -52,6 +54,7 @@ class BookingController extends Controller
                 "accepted" => 1,
                 ($message = "Accepted."),
             ]);
+            Mail::to($booking->user)->send(new StudentAccepted($booking));
         } else {
             $booking->update([
                 "accepted" => 0,
