@@ -15,10 +15,10 @@
       :create="true"
     />
     <div v-else>
-      <div class="rounded-[20px] p-2 mt-4">
-        <div class="text-dark-blue w-full p-2">
-          <h1 class="h4">Job Adverts</h1>
-        </div>
+      <div class="text-dark-blue w-full p-2 mt-8">
+        <h1 class="h3 text-gray-500">Job Adverts</h1>
+      </div>
+      <div class="bg-white shadow-md rounded-[20px] p-2">
         <ul
           v-for="job in jobs"
           :key="job.id"
@@ -50,10 +50,10 @@
           </li>
         </ul>
       </div>
-      <div class="rounded-[20px] p-2 mt-4">
-        <div class="text-dark-blue w-full p-2">
-          <h1 class="h4">Requests</h1>
-        </div>
+      <div class="text-dark-blue w-full p-2 mt-8">
+        <h1 class="h3 text-gray-500">Job Requests</h1>
+      </div>
+      <div class="bg-white shadow-md rounded-[20px] p-2">
         <ul
           v-for="job in requests"
           :key="job.id"

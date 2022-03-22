@@ -25,137 +25,152 @@
       <JobCard v-for="job in jobs" :key="job.id" :job="job" />
     </div>
 
-    <div v-else class="bg-white rounded-lg shadow-md p-2 mt-2">
-      <table class="min-w-full">
-        <thead class="bg-white border-b-faint-blue">
-          <tr>
-            <th
-              scope="col"
-              class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
-            >
-              Title
-            </th>
-            <th
-              scope="col"
-              class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
-            >
-              Created By
-            </th>
-            <th
-              scope="col"
-              class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
-            >
-              Created On
-            </th>
-            <th
-              scope="col"
-              class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
-            >
-              Status
-            </th>
-            <th
-              scope="col"
-              class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
-            >
-              Request
-            </th>
-            <th
-              scope="col"
-              class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
-            >
-              Approved By
-            </th>
-            <th
-              scope="col"
-              class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
-            >
-              Date Approved
-            </th>
-            <th
-              scope="col"
-              class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
-            >
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="job in jobs"
-            :key="job.id"
-            class="bg-white border-b hover:bg-gray-100"
-          >
-            <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              {{ job.title }}
-            </td>
-            <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              {{ job.user.first_name }} {{ job.user.last_name }}
-            </td>
-            <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              {{ formatDate(job.created_at) }}
-            </td>
-            <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              <p
-                class="p-2 text-center text-xs rounded-full w-[120px]"
-                :class="{
-                  'bg-green-300 text-green-700': job.approved,
-                  'bg-rose-400 text-rose-700': !job.approved
-                }"
+    <div v-else class="w-full">
+      <div class="text-dark-blue w-full p-2 mt-8">
+        <h1 class="h3 text-gray-500">Manage Jobs</h1>
+      </div>
+      <div class="bg-white rounded-lg shadow-md p-2">
+        <table class="min-w-full">
+          <thead class="bg-white border-b-faint-blue">
+            <tr>
+              <th
+                scope="col"
+                class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
               >
-                {{ job.approved ? "Approved" : "Pending.." }}
-              </p>
-            </td>
-            <td class="text-sm font-medium text-faint-blue px-6 py-4 text-left">
-              {{ job.request ? "Yes" : "No" }}
-            </td>
-            <td
-              v-text="
-                job.approved
-                  ? job.admin.first_name + ' ' + job.admin.last_name
-                  : 'N/A'
-              "
-              class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
-            ></td>
-            <td
-              v-text="job.approved ? formatDate(job.date_posted) : 'N/A'"
-              class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
-            ></td>
-            <td class="px-6 py-4 flex justify-evenly items-center">
-              <Link
-                :href="route('jobs.destroy', job.id)"
-                method="delete"
-                as="button"
-                class="text-red mr-3"
+                Title
+              </th>
+              <th
+                scope="col"
+                class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
               >
-                <i class="fas fa-trash"></i>
-              </Link>
-              <Link
-                class="mr-3"
-                :class="{
-                  'text-lime-500': !job.approved,
-                  'text-red': job.approved
-                }"
-                method="put"
-                as="button"
-                :href="route('admin.jobs.status', job.id)"
+                Created By
+              </th>
+              <th
+                scope="col"
+                class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
               >
-                <i
+                Created On
+              </th>
+              <th
+                scope="col"
+                class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
+              >
+                Status
+              </th>
+              <th
+                scope="col"
+                class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
+              >
+                Request
+              </th>
+              <th
+                scope="col"
+                class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
+              >
+                Approved By
+              </th>
+              <th
+                scope="col"
+                class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
+              >
+                Date Approved
+              </th>
+              <th
+                scope="col"
+                class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
+              >
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="job in jobs"
+              :key="job.id"
+              class="bg-white border-b hover:bg-gray-100"
+            >
+              <td
+                class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
+              >
+                {{ job.title }}
+              </td>
+              <td
+                class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
+              >
+                {{ job.user.first_name }} {{ job.user.last_name }}
+              </td>
+              <td
+                class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
+              >
+                {{ formatDate(job.created_at) }}
+              </td>
+              <td
+                class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
+              >
+                <p
+                  class="p-2 text-center text-xs rounded-full w-[120px]"
                   :class="{
-                    'fas fa-check': !job.approved,
-                    'fas fa-times': job.approved
+                    'bg-green-300 text-green-700': job.approved,
+                    'bg-rose-400 text-rose-700': !job.approved
                   }"
-                ></i>
-              </Link>
-              <Link
-                class="text-blue-500"
-                :href="route('admin.jobs.show', job.id)"
+                >
+                  {{ job.approved ? "Approved" : "Pending.." }}
+                </p>
+              </td>
+              <td
+                class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
               >
-                <i class="fas fa-external-link-alt"></i>
-              </Link>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                {{ job.request ? "Yes" : "No" }}
+              </td>
+              <td
+                v-text="
+                  job.approved
+                    ? job.admin.first_name + ' ' + job.admin.last_name
+                    : 'N/A'
+                "
+                class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
+              ></td>
+              <td
+                v-text="job.approved ? formatDate(job.date_posted) : 'N/A'"
+                class="text-sm font-medium text-faint-blue px-6 py-4 text-left"
+              ></td>
+              <td class="px-6 py-4 flex justify-evenly items-center">
+                <Link
+                  :href="route('jobs.destroy', job.id)"
+                  method="delete"
+                  as="button"
+                  class="text-red mr-3"
+                >
+                  <i class="fas fa-trash"></i>
+                </Link>
+                <Link
+                  class="mr-3"
+                  :class="{
+                    'text-lime-500': !job.approved,
+                    'text-red': job.approved
+                  }"
+                  method="put"
+                  as="button"
+                  :href="route('admin.jobs.status', job.id)"
+                >
+                  <i
+                    :class="{
+                      'fas fa-check': !job.approved,
+                      'fas fa-times': job.approved
+                    }"
+                  ></i>
+                </Link>
+                <Link
+                  class="text-blue-500"
+                  :href="route('admin.jobs.show', job.id)"
+                >
+                  <i class="fas fa-external-link-alt"></i>
+                </Link>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </DashboardLayout>
 </template>

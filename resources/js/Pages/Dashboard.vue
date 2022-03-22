@@ -41,11 +41,11 @@
       />
     </div>
 
+    <div v-if="userIsStudent()" class="text-dark-blue w-full p-2 mt-8">
+      <h1 class="h3 text-gray-500">Recently Created Jobs</h1>
+    </div>
     <!--Recently Created Jobs-->
-    <div v-if="userIsStudent()" class="mt-4 bg-white rounded-lg shadow-md p-2">
-      <div class="text-dark-blue w-full p-2">
-        <h1 class="h4">Recently Created Jobs</h1>
-      </div>
+    <div v-if="userIsStudent()" class="bg-white rounded-lg shadow-md p-2">
       <table class="min-w-full">
         <thead class="bg-white border-b-faint-blue">
           <tr>
@@ -147,11 +147,11 @@
       </table>
     </div>
 
+    <div v-if="userIsStudent()" class="text-dark-blue w-full p-2 mt-8">
+      <h1 class="h3 text-gray-500">Recently Posted Comments</h1>
+    </div>
     <!--Recently Posted Comments-->
-    <div v-if="userIsStudent()" class="mt-4 bg-white rounded-lg shadow-md p-2">
-      <div class="text-dark-blue w-full p-2">
-        <h1 class="h4">Recently Posted Comments</h1>
-      </div>
+    <div v-if="userIsStudent()" class="bg-white rounded-lg shadow-md p-2">
       <table class="min-w-full">
         <thead class="bg-white border-b-faint-blue">
           <tr>
@@ -204,11 +204,11 @@
       </table>
     </div>
 
+    <div v-if="userIsAdmin()" class="text-dark-blue w-full p-2 mt-8">
+      <h1 class="h3 text-gray-500">Jobs Recently Approved</h1>
+    </div>
     <!--Jobs Recently Approved-->
-    <div v-if="userIsAdmin()" class="mt-4 bg-white rounded-lg shadow-md p-2">
-      <div class="text-dark-blue w-full p-2">
-        <h1 class="h4">Jobs Recently Approved</h1>
-      </div>
+    <div v-if="userIsAdmin()" class="bg-white rounded-lg shadow-md p-2">
       <table class="min-w-full">
         <thead class="bg-white border-b-faint-blue">
           <tr>
@@ -281,11 +281,11 @@
       </table>
     </div>
 
+    <div v-if="userIsAdmin()" class="text-dark-blue w-full p-2 mt-8">
+      <h1 class="h3 text-gray-500">Announcements Recently Created</h1>
+    </div>
     <!--Announcements Recently Created-->
-    <div v-if="userIsAdmin()" class="mt-4 bg-white rounded-lg shadow-md p-2">
-      <div class="text-dark-blue w-full p-2">
-        <h1 class="h4">Announcements Recently Created</h1>
-      </div>
+    <div v-if="userIsAdmin()" class="bg-white rounded-lg shadow-md p-2">
       <table class="min-w-full">
         <thead class="bg-white border-b-faint-blue">
           <tr>
