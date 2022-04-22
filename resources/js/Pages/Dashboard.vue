@@ -376,7 +376,7 @@ export default {
     DashboardCard,
     Link
   },
-  setup(props) {
+  setup() {
     const { userIsStudent, userIsAdmin } = useUser()
     const formatDate = useDateFormat()
 
@@ -388,3 +388,4 @@ export default {
   }
 }
 </script>
+

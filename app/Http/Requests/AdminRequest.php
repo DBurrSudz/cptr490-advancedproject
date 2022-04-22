@@ -23,11 +23,12 @@ class AdminRequest extends FormRequest
      */
     public function rules()
     {
+        $shared = "required|string|max:255";
         return [
-            "first_name" => "required|string|max:255",
-            "last_name" => "required|string|max:255",
-            "title" => "required|string|max:255",
-            "position" => "required|string|max:255",
+            "first_name" => $shared,
+            "last_name" => $shared,
+            "title" => $shared,
+            "position" => $shared,
         ];
     }
 
@@ -45,3 +46,4 @@ class AdminRequest extends FormRequest
         ];
     }
 }
+

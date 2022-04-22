@@ -198,7 +198,7 @@ export default {
       required: true
     }
   },
-  setup(props) {
+  setup() {
     const { userIsAdmin, userIsStudent } = useUser()
     const formatDate = useDateFormat()
     return { userIsAdmin, userIsStudent, formatDate }

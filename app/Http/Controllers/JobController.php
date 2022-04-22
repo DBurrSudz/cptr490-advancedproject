@@ -18,6 +18,7 @@ class JobController extends Controller
      */
     public function index()
     {
+        $shared = "user:id,first_name,last_name";
         $this->authorize("viewAll", Job::class);
         if (Auth::guard("admin")->check()) {
             $jobs = Job::select([
@@ -31,10 +32,7 @@ class JobController extends Controller
                 "request",
             ])
                 ->latest()
-                ->with([
-                    "user:id,first_name,last_name",
-                    "admin:id,first_name,last_name",
-                ])
+                ->with([$shared, "admin:id,first_name,last_name"])
                 ->get();
         } else {
             $jobs = Job::select([
@@ -49,7 +47,7 @@ class JobController extends Controller
             ])
                 ->where("approved", 1)
                 ->latest()
-                ->with("user:id,first_name,last_name")
+                ->with($shared)
                 ->withCount("comments")
                 ->get();
         }
@@ -254,3 +252,4 @@ class JobController extends Controller
         return back()->withSuccess("Status updated.");
     }
 }
+

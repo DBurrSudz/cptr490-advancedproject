@@ -42,3 +42,4 @@ class StudentAccepted extends Mailable
             ->view("mail.student.accepted");
     }
 }
+

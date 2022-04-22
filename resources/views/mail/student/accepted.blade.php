@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Booking</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         .container {
-            width: 100%;
+            width: 100vw;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: #d4d4d4;
         }
 
         .heading {
@@ -46,7 +49,7 @@
             border-width: medium;
             border-radius: 20px;
             border-color: black;
-            background-color: #d4d4d4;
+            background-color: #ffff ;
         }
 
         .shadow-md {

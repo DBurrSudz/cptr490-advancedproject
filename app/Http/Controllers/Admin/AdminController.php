@@ -73,14 +73,15 @@ class AdminController extends Controller
      */
     public function register(Request $request)
     {
+        $shared = "required|string|max:255";
         $request->validate(
             [
-                "first_name" => "required|string|max:255",
-                "last_name" => "required|string|max:255",
+                "first_name" => $shared,
+                "last_name" => $shared,
                 "ncu_id" =>
                     "required|string|max:255|unique:admins,ncu_id|unique:users,ncu_id",
-                "title" => "required|string|max:255",
-                "position" => "required|string|max:255",
+                "title" => $shared,
+                "position" => $shared,
                 "email" =>
                     "required|string|email|max:255|unique:users,email|unique:admins,email",
                 "password" => [
