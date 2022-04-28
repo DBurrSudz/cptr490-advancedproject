@@ -17,7 +17,10 @@
       :create="userIsAdmin()"
       icon="fas fa-newspaper"
     />
-    <div v-else-if="userIsStudent()" class="grid grid-cols-3 gap-x-4 mt-8">
+    <div
+      v-else-if="userIsStudent()"
+      class="grid grid-cols-3 gap-y-6 gap-x-4 mt-8"
+    >
       <AnnouncementCard
         v-for="announcement in announcements"
         :key="announcement.id"

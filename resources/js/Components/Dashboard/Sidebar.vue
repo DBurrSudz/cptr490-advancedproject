@@ -21,7 +21,7 @@
     <SidebarLink
       label="Announcements"
       icon="fas fa-newspaper"
-      :active="route().current('*.announcements.index')"
+      :active="route().current('*.announcements.*')"
       :href="
         userIsAdmin()
           ? route('admin.announcements.index')
