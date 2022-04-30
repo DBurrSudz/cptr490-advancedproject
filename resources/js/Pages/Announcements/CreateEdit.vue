@@ -27,6 +27,16 @@
           {{ category }}
         </option>
       </Input>
+
+      <Input
+        label="Description"
+        id="description"
+        type="textarea"
+        placeholder="Description of announcement..."
+        v-model="form.description"
+        :error="form.errors.description"
+      />
+      <!--
       <Editor
         :api-key="tinyKEY"
         v-model="form.description"
@@ -44,6 +54,7 @@
           automatic_uploads: true
         }"
       />
+      -->
       <button type="submit" class="btn-dark-blue w-full mt-2">
         {{ mode === "create" ? "Create" : "Save" }}
         <i

@@ -43,6 +43,15 @@
         type="number"
       />
 
+      <Input
+        label="Description"
+        id="description"
+        type="textarea"
+        placeholder="Description of job..."
+        v-model="form.description"
+        :error="form.errors.description"
+      />
+      <!--
       <Editor
         :api-key="tinyKEY"
         v-model="form.description"
@@ -60,6 +69,7 @@
           automatic_uploads: true
         }"
       />
+      -->
       <button type="submit" class="btn-dark-blue w-full mt-2">
         {{ mode === "create" ? "Create" : "Save" }}
         <i

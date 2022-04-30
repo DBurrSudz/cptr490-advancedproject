@@ -18,9 +18,11 @@
         >
       </div>
       <div v-if="$page.props.auth.user.id === comment.user.id || userIsAdmin()">
+        <!--
         <Link v-if="!userIsAdmin()" class="mr-2" href="">
           <i class="fas fa-edit text-lime-500"></i>
         </Link>
+        -->
         <i
           class="fas fa-trash text-red cursor-pointer"
           @click="$inertia.delete(route('comments.destroy', comment.id))"

@@ -54,7 +54,6 @@ class BookingController extends Controller
                 "accepted" => 1,
                 ($message = "Accepted."),
             ]);
-            Mail::to($booking->user)->send(new StudentAccepted($booking));
         } else {
             $booking->update([
                 "accepted" => 0,
@@ -76,3 +75,4 @@ class BookingController extends Controller
         return back()->withSuccess("Application removed.");
     }
 }
+
